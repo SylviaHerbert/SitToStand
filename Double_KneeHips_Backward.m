@@ -3,7 +3,7 @@
 grid_min = [-1.8091-.5; -3.289-.5; .0013-.5; -4.99-.5]; % Lower corner of computation domain
 grid_max = [.0247+.5; 4.4269+.5; 2.4655+.5; 1.8952+.5];    % Upper corner of computation domain
 N = [41; 41; 41; 41];         % Number of grid points per dimension
-pdDims = [1,3];               % 1st, 3rd dimension is periodic
+%pdDims = [1,3];               % 1st, 3rd dimension is periodic
 g = createGrid(grid_min, grid_max, N, pdDims);
 % Use "g = createGrid(grid_min, grid_max, N);" if there are no periodic
 % state space dimensions
