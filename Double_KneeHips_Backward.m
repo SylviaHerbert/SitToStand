@@ -48,160 +48,160 @@ schemeData.accuracy = 'medium';
 schemeData.hamFunc = @pendulum4DHam;
 schemeData.partialFunc = @pendulum4Dpartial;
 %% solve
-% extraArgs.visualize = true;
-% extraArgs.save_filename = 'Double_KneeHips_Backward_61';
-% extraArgs.saveFrequency = 100;
-% [data, tau, extraOuts] = HJIPDE_solve( ...
-%   data, tau, schemeData, 'zero');
+%extraArgs.visualize = true;
+extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
+extraArgs.saveFrequency = 100;
+[data, tau, extraOuts] = HJIPDE_solve( ...
+  data, tau, schemeData, 'zero');
 
-%% Ignore everything after this; using it to troubleshoot
-visualize = 1;
-schemeData.dissFunc = @artificialDissipationGLF;
-% Set up spatial approximation scheme.
-schemeFunc = @termLaxFriedrichs;
-accuracy = 'high';
-% Set up time approximation scheme.
-integratorOptions = odeCFLset('factorCFL', 0.5, 'stats', 'off');
-
-switch(accuracy)
-  case 'low'
-    schemeData.derivFunc = @upwindFirstFirst;
-    integratorFunc = @odeCFL1;
-  case 'medium'
-    schemeData.derivFunc = @upwindFirstENO2;
-    integratorFunc = @odeCFL2;
-  case 'high'
-    schemeData.derivFunc = @upwindFirstENO3;
-    integratorFunc = @odeCFL3;
-  case 'veryHigh'
-    schemeData.derivFunc = @upwindFirstWENO5;
-    integratorFunc = @odeCFL3;
-  otherwise
-    error('Unknown accuracy level %s', accuracy);
-end
-integratorOptions = odeCFLset(integratorOptions, 'singleStep', 'on');
-
-if visualize
-  figure(3);
-  clf
-  
-  [gKnee,dataKnee]=proj(g,data,[0 0 1 1]);
-  [~, h1] = contour(gKnee.xs{1}, gKnee.xs{2}, dataKnee, [0 0],'r');
-  hold on
-  xlabel('\theta Knee')
-  ylabel('\omega Knee')
-  drawnow;
-  
-  figure(4);
-  clf
-  [gHip,dataHip]=proj(g,data,[1 1 0 0]);
-  [~, h2] = contour(gHip.xs{1}, gHip.xs{2}, dataHip, [0 0],'r');
-  hold on
-  xlabel('\theta Hip')
-  ylabel('\omega Hip')
-  drawnow;
-  
+% %% Ignore everything after this; using it to troubleshoot
+% visualize = 1;
+% schemeData.dissFunc = @artificialDissipationGLF;
+% % Set up spatial approximation scheme.
+% schemeFunc = @termLaxFriedrichs;
+% accuracy = 'high';
+% % Set up time approximation scheme.
+% integratorOptions = odeCFLset('factorCFL', 0.5, 'stats', 'off');
+% 
+% switch(accuracy)
+%   case 'low'
+%     schemeData.derivFunc = @upwindFirstFirst;
+%     integratorFunc = @odeCFL1;
+%   case 'medium'
+%     schemeData.derivFunc = @upwindFirstENO2;
+%     integratorFunc = @odeCFL2;
+%   case 'high'
+%     schemeData.derivFunc = @upwindFirstENO3;
+%     integratorFunc = @odeCFL3;
+%   case 'veryHigh'
+%     schemeData.derivFunc = @upwindFirstWENO5;
+%     integratorFunc = @odeCFL3;
+%   otherwise
+%     error('Unknown accuracy level %s', accuracy);
+% end
+% integratorOptions = odeCFLset(integratorOptions, 'singleStep', 'on');
+% 
+% if visualize
 %   figure(3);
 %   clf
-%   [g3,data3]=proj(g,data,[0 1 0 1]);
-%   [~, h3] = contour(g3.xs{1}, g3.xs{2}, data3, [0 0],'r');
+%   
+%   [gKnee,dataKnee]=proj(g,data,[0 0 1 1]);
+%   [~, h1] = contour(gKnee.xs{1}, gKnee.xs{2}, dataKnee, [0 0],'r');
 %   hold on
 %   xlabel('\theta Knee')
-%   ylabel('\theta Hip')
+%   ylabel('\omega Knee')
 %   drawnow;
 %   
-%     figure(4);
+%   figure(4);
 %   clf
-%   [g4,data4]=proj(g,data,[1 0 1 0]);
-%   [~, h4] = contour(g4.xs{1}, g4.xs{2}, data4, [0 0],'r');
+%   [gHip,dataHip]=proj(g,data,[1 1 0 0]);
+%   [~, h2] = contour(gHip.xs{1}, gHip.xs{2}, dataHip, [0 0],'r');
 %   hold on
-%   xlabel('\omega Knee')
+%   xlabel('\theta Hip')
 %   ylabel('\omega Hip')
 %   drawnow;
 %   
-%       figure(5);
-%   clf
-%   [g5,data5]=proj(g,data,[1 0 0 1]);
-%   [~, h5] = contour(g5.xs{1}, g5.xs{2}, data5, [0 0],'r');
-%   hold on
-%   xlabel('\omega Knee')
-%   ylabel('\theta Hip')
-%   drawnow;
+% %   figure(3);
+% %   clf
+% %   [g3,data3]=proj(g,data,[0 1 0 1]);
+% %   [~, h3] = contour(g3.xs{1}, g3.xs{2}, data3, [0 0],'r');
+% %   hold on
+% %   xlabel('\theta Knee')
+% %   ylabel('\theta Hip')
+% %   drawnow;
+% %   
+% %     figure(4);
+% %   clf
+% %   [g4,data4]=proj(g,data,[1 0 1 0]);
+% %   [~, h4] = contour(g4.xs{1}, g4.xs{2}, data4, [0 0],'r');
+% %   hold on
+% %   xlabel('\omega Knee')
+% %   ylabel('\omega Hip')
+% %   drawnow;
+% %   
+% %       figure(5);
+% %   clf
+% %   [g5,data5]=proj(g,data,[1 0 0 1]);
+% %   [~, h5] = contour(g5.xs{1}, g5.xs{2}, data5, [0 0],'r');
+% %   hold on
+% %   xlabel('\omega Knee')
+% %   ylabel('\theta Hip')
+% %   drawnow;
+% %   
+% %       figure(6);
+% %   clf
+% %   [g6,data6]=proj(g,data,[0 1 1 0]);
+% %   [~, h6] = contour(g6.xs{1}, g6.xs{2}, data6, [0 0],'r');
+% %   hold on
+% %   xlabel('\theta Knee')
+% %   ylabel('\omega Hip')
+% %   drawnow;
+% end
+% 
+% tNow = 0;
+%  tau = tNow;
+% 
+% % How close (relative) do we need to get to tMax to be considered finished?
+% small = 100 * eps;
+% while(tMax - tNow > small * tMax)
+%   % How far to step?
+%   tSpan = [tNow, tMax];
 %   
-%       figure(6);
-%   clf
-%   [g6,data6]=proj(g,data,[0 1 1 0]);
-%   [~, h6] = contour(g6.xs{1}, g6.xs{2}, data6, [0 0],'r');
-%   hold on
-%   xlabel('\theta Knee')
-%   ylabel('\omega Hip')
-%   drawnow;
-end
-
-tNow = 0;
- tau = tNow;
-
-% How close (relative) do we need to get to tMax to be considered finished?
-small = 100 * eps;
-while(tMax - tNow > small * tMax)
-  % How far to step?
-  tSpan = [tNow, tMax];
-  
-    y0 = data(:,:,:,:,end);
-    y0 = y0(:);
-    [t, y] = feval(integratorFunc, schemeFunc, tSpan, y0,...
-      integratorOptions, schemeData);
-    %data = reshape(y,g.shape);
-        dataNew = reshape(y,g.shape);
-    data = min(data,dataNew);
-%     dataNew = min(data(:,:,:,:,end),dataNew);
-%     data = cat(5, data, dataNew);
-  
-    tNow = t(end);
-  tau = cat(1, tau, tNow);
-  
-  % Create new visualization.
-  if visualize
-    figure(3)
-    clf
-    [~, dataKnee]=proj(g,data,[0 0 1 1]);
-    %clf
-    [~, h1] = contour(gKnee.xs{1}, gKnee.xs{2}, dataKnee, [0 0],'r');
-    %h1.ZData = dataKnee;
-    title(['t=' num2str(tNow)])
-    drawnow;
-    
-    figure(4)
-    clf
-    [~, dataHip]=proj(g,data,[1 1 0 0]);
-    %clf
-    [~, h2] = contour(gHip.xs{1}, gHip.xs{2}, dataHip, [0 0],'r');
-    %h2.ZData = dataHips;
-    title(['t=' num2str(tNow)])
-    drawnow;
-    
-%   figure(3);
-%   [~,data3]=proj(g,data,[0 1 0 1]);
-%   [~, h3] = contour(g3.xs{1}, g3.xs{2}, data3, [0 0],'r');
-% title(['t=' num2str(tNow)])
-%   drawnow;
+%     y0 = data(:,:,:,:,end);
+%     y0 = y0(:);
+%     [t, y] = feval(integratorFunc, schemeFunc, tSpan, y0,...
+%       integratorOptions, schemeData);
+%     %data = reshape(y,g.shape);
+%         dataNew = reshape(y,g.shape);
+%     data = min(data,dataNew);
+% %     dataNew = min(data(:,:,:,:,end),dataNew);
+% %     data = cat(5, data, dataNew);
 %   
-%     figure(4);
-%   [~,data4]=proj(g,data,[1 0 1 0]);
-%   [~, h4] = contour(g4.xs{1}, g4.xs{2}, data4, [0 0],'r');
-% title(['t=' num2str(tNow)])
-%   drawnow;
+%     tNow = t(end);
+%   tau = cat(1, tau, tNow);
 %   
-%       figure(5);
-%   [~,data5]=proj(g,data,[1 0 0 1]);
-%   [~, h5] = contour(g5.xs{1}, g5.xs{2}, data5, [0 0],'r');
-% title(['t=' num2str(tNow)])
-%   drawnow;
-%   
-%       figure(6);
-%   [~,data6]=proj(g,data,[0 1 1 0]);
-%   [~, h6] = contour(g6.xs{1}, g6.xs{2}, data6, [0 0],'r');
-% title(['t=' num2str(tNow)])
-%   drawnow;
-  end
-end
+%   % Create new visualization.
+%   if visualize
+%     figure(3)
+%     clf
+%     [~, dataKnee]=proj(g,data,[0 0 1 1]);
+%     %clf
+%     [~, h1] = contour(gKnee.xs{1}, gKnee.xs{2}, dataKnee, [0 0],'r');
+%     %h1.ZData = dataKnee;
+%     title(['t=' num2str(tNow)])
+%     drawnow;
+%     
+%     figure(4)
+%     clf
+%     [~, dataHip]=proj(g,data,[1 1 0 0]);
+%     %clf
+%     [~, h2] = contour(gHip.xs{1}, gHip.xs{2}, dataHip, [0 0],'r');
+%     %h2.ZData = dataHips;
+%     title(['t=' num2str(tNow)])
+%     drawnow;
+%     
+% %   figure(3);
+% %   [~,data3]=proj(g,data,[0 1 0 1]);
+% %   [~, h3] = contour(g3.xs{1}, g3.xs{2}, data3, [0 0],'r');
+% % title(['t=' num2str(tNow)])
+% %   drawnow;
+% %   
+% %     figure(4);
+% %   [~,data4]=proj(g,data,[1 0 1 0]);
+% %   [~, h4] = contour(g4.xs{1}, g4.xs{2}, data4, [0 0],'r');
+% % title(['t=' num2str(tNow)])
+% %   drawnow;
+% %   
+% %       figure(5);
+% %   [~,data5]=proj(g,data,[1 0 0 1]);
+% %   [~, h5] = contour(g5.xs{1}, g5.xs{2}, data5, [0 0],'r');
+% % title(['t=' num2str(tNow)])
+% %   drawnow;
+% %   
+% %       figure(6);
+% %   [~,data6]=proj(g,data,[0 1 1 0]);
+% %   [~, h6] = contour(g6.xs{1}, g6.xs{2}, data6, [0 0],'r');
+% % title(['t=' num2str(tNow)])
+% %   drawnow;
+%   end
+% end
