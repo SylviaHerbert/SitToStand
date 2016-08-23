@@ -2,15 +2,15 @@
 h2 = figure(2);
 camlight left
 for i = -.03:.0001:0
-%for i = -2.3091:.1:.5247
+  %for i = -2.3091:.1:.5247
   %for i = -3.789:.1:4.9269
-    clf
-    [g3D,data3D]=proj(gMode2,dataMode2(:,:,:,:,end),[0 1 0 0],[i]);
-    h2 = visSetIm(g3D, data3D,'g',0,0,0);
-    disp(i)
-    drawnow;
-    pause
-  end
+  clf
+  [g3D,data3D]=proj(gMode2,dataMode2(:,:,:,:,end),[0 1 0 0],[i]);
+  h2 = visSetIm(g3D, data3D,'g',0,0,0);
+  disp(i)
+  drawnow;
+  pause
+end
 
 
 % [gMode2_comp_test, dataMode2_comp_test] = proj(gMode2, dataMode2(:,:,:,:,end), [1 1 0 0], [-pi/2-.1,-.1;-pi/2+.1,.1]);
