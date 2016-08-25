@@ -19,7 +19,7 @@ data = shapeRectangleByCorners(g, [-pi/15;-.1; -pi/80;-.1],[pi/80;.1; pi/15;.1])
 
 %% time vector
 t0 = 0;
-tMax = 1;
+tMax = 2;
 dt = 0.025;
 tau = t0:dt:tMax;
 % If intermediate results are not needed, use tau = [t0 tMax];
