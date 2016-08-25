@@ -1,10 +1,10 @@
-
+function [data, g, tau] = Double_KneeHips_Backward(gpoints, T1Max, T2Max, accuracy)
 %% Grid
 grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
 grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
 %grid_min = [-1.8091-.5; -3.289-.5; .0013-.5; -4.99-.5]; % Lower corner of computation domain
 %grid_max = [.0247+.5; 4.4269+.5; 2.4655+.5; 1.8952+.5];    % Upper corner of computation domain
-N = 41*ones(4,1);         % Number of grid points per dimension
+N = gpoints*ones(4,1);         % Number of grid points per dimension, default to 41
 %pdDims = [1,3];               % 1st, 3rd dimension is periodic
 g = createGrid(grid_min, grid_max, N);
 % Use "g = createGrid(grid_min, grid_max, N);" if there are no periodic
@@ -25,8 +25,8 @@ tau = t0:dt:tMax;
 % If intermediate results are not needed, use tau = [t0 tMax];
 
 %% problem parameters
-T1Max = 1;
-T2Max = 1;
+% T1Max = 1;
+% T2Max = 1;
 R1 = .276;
 R2 = .222;
 M1 = 12.4;
@@ -42,7 +42,7 @@ schemeData.R2 = R2;
 schemeData.M1 = M1;
 schemeData.M2 = M2;
 schemeData.L1 = L1;
-schemeData.accuracy = 'medium';
+schemeData.accuracy = accuracy; %default is medium
 
 % ----- System dynamics are specified here -----
 schemeData.hamFunc = @pendulum4DHam;
@@ -53,7 +53,8 @@ extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
 extraArgs.saveFrequency = 100;
 [data, tau, extraOuts] = HJIPDE_solve( ...
   data, tau, schemeData, 'zero');
-
+data = min(data,[],5);
+end
 % %% Ignore everything after this; using it to troubleshoot
 % visualize = 1;
 % schemeData.dissFunc = @artificialDissipationGLF;

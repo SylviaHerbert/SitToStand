@@ -1,6 +1,6 @@
 %% Grid
-grid_min = [.0013-.5; -4.99-.5]; % Lower corner of computation domain
-grid_max = [2.4655+.5; 1.8952+.5];    % Upper corner of computation domain
+grid_min = [0.0013-pi/15, -4.9904-pi/15]; % Lower corner of computation domain
+grid_max = [2.4655+pi/15, 1.8952+pi/15];    % Upper corner of computation domain
 N = [41; 41];         % Number of grid points per dimension
 %pdDims = [1,3];               % 1st, 3rd dimension is periodic
 g2D = createGrid(grid_min, grid_max, N);
@@ -15,13 +15,13 @@ data0 = shapeRectangleByCorners(g2D, [-pi/80;-.1],[pi/15;.1]);
 
 %% time vector
 t0 = 0;
-tMax = 2;
+tMax = 1;
 dt = 0.025;
 tau = t0:dt:tMax;
 % If intermediate results are not needed, use tau = [t0 tMax];
 
 %% problem parameters
-T2Max = 40;
+T2Max = 1;
 R2 = .222;
 M2 = 27.3;
 
