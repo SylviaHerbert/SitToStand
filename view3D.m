@@ -1,6 +1,6 @@
 kneeThetaMin = -2;
 kneeThetaMax = 0.23;
-figure(1)
+figure(10)
 hold on
 for knee = kneeThetaMin:.05:kneeThetaMax
   clf

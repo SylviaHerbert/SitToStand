@@ -45,12 +45,12 @@ schemeData.L1 = L1;
 schemeData.accuracy = accuracy; %default is medium
 
 % ----- System dynamics are specified here -----
-schemeData.hamFunc = @pendulum4DHam;
+schemeData.hamFunc = @pendulum4DHamAnkle;
 schemeData.partialFunc = @pendulum4Dpartial;
 %% solve
 %extraArgs.visualize = true;
-extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
-extraArgs.saveFrequency = 100;
+%extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
+%extraArgs.saveFrequency = 100;
 [data, tau, extraOuts] = HJIPDE_solve( ...
   data, tau, schemeData, 'zero');
 data = min(data,[],5);
