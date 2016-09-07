@@ -31,6 +31,7 @@ R1 = .276;
 R2 = .222;
 M1 = 12.4;
 M2 = 27.3;
+L0 = .430;
 L1 = .438;
 
 %% Pack problem parameters
@@ -42,6 +43,7 @@ schemeData.R2 = R2;
 schemeData.M1 = M1;
 schemeData.M2 = M2;
 schemeData.L1 = L1;
+schemeData.L0 = L0;
 schemeData.accuracy = accuracy; %default is medium
 
 % ----- System dynamics are specified here -----
