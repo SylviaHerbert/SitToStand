@@ -133,9 +133,7 @@ for i = 1:grid_dim(1)
                 f = c;
                 b1 = T0Max -b;
                 b2 = -(T0Min - b);
-                
-                b1_2 = T0Max - b;
-                b2_2 = -(T0Min - b);
+              
 
                 t = linprog_quiet(f, [A'; -A'], [b1; b2] ,[],[], [T1Min T2Min], [T1Max T2Max]); %solve optimization
                 

@@ -6,13 +6,23 @@ clf
 % gBRS_4D = g;
 % dataBRS_4D = data;
 % clear g data
+
+%4D BRS from standing, project through knee angle = -pi/2
 [gBRS_3D_kneeanglefixed, dataBRS_3D_kneeanglefixed]=...
   proj(gBRS_4D, dataBRS_4D, [1 0 0 0], -pi/2);
+
+%Take result from above, project through all knee velocities to get hip
+%info
 [gBRS_2D_kneeanglefixed, dataBRS_2D_kneeanglefixed]=...
   proj(gBRS_3D_kneeanglefixed, dataBRS_3D_kneeanglefixed, [1 0 0], 'min');
+
+%Project entire 4D BRS from standing through all knee angles, velocities
 [gBRS_2D_all, dataBRS_2D_all] = proj(gBRS_4D, dataBRS_4D, [1 1 0 0], 'min');
-%[g2Dforward, data2Dforward, data0] = Single_Hips_Forwards(T2Max);
+
+%run 2D set forward
+[g2Dforward, data2Dforward, data0] = Single_Hips_Forwards(T2Max);
 data2Dforward = min(data2Dforward,[],3);
+
 hold on
 
 [~, h0] = contour(g2Dforward.xs{1}, g2Dforward.xs{2}, data2Dforward, [0 0], 'r');
