@@ -1,4 +1,4 @@
-function [data, g, tau] = Double_KneeHips_Backward(gpoints, T1Max, T2Max, accuracy)
+function [data, g, tau] = Double_KneeHips_Backward(gpoints, T1Max, T2Max, TAMax, accuracy)
 %% Grid
 grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
 grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
@@ -37,7 +37,11 @@ L1 = .438;
 %% Pack problem parameters
 schemeData.grid = g; % Grid MUST be specified!
 schemeData.T1Max = T1Max;
+schemeData.T1Min = -T1Max;
 schemeData.T2Max = T2Max;
+schemeData.T2Min = -T2Max;
+schemeData.TAMax = TAMax;
+schemeData.TAMin = -TAMax;
 schemeData.R1 = R1;
 schemeData.R2 = R2;
 schemeData.M1 = M1;
@@ -45,9 +49,10 @@ schemeData.M2 = M2;
 schemeData.L1 = L1;
 schemeData.L0 = L0;
 schemeData.accuracy = accuracy; %default is medium
+schemeData = testAnkle(schemeData); %add in ankle constraints
 
 % ----- System dynamics are specified here -----
-schemeData.hamFunc = @pendulum4DHamAnkle;
+schemeData.hamFunc = @pendulum4DHam;
 schemeData.partialFunc = @pendulum4Dpartial;
 %% solve
 %extraArgs.visualize = true;

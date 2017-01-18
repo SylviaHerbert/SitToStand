@@ -33,10 +33,12 @@ L1 = schemeData.L1;
 M1 = schemeData.M1;
 M2 = schemeData.M2;
 
-T1Max = schemeData.T1Max;
-T1Min = -T1Max;
-T2Max = schemeData.T2Max;
-T2Min = -T2Max;
+tau1test = schemeData.tau1test;
+tau2test = schemeData.tau2test;
+% T1Max = schemeData.T1Max;
+% T1Min = -T1Max;
+% T2Max = schemeData.T2Max;
+% T2Min = -T2Max;
 grav = 9.81;
 
 num1 =(grav.*(M1.*R1.*R2 + M2.*L1.*R2).*sin(ang1) + ...
@@ -63,11 +65,18 @@ tau1Multiplier = (p{2}.*R2./denom1 - p{4}.*(M2.*R2.^2 + M2.*R2.*L1.*cos(ang2))./
 tau2Multiplier = (-p{2}.*(R2+L1.*cos(ang2))./denom1...
     - p{4}.*(-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(ang2))./denom2);
   
-hamValue = extraTerms...
-  + (tau1Multiplier>=0).*(tau1Multiplier).*T1Min ...
-  + (tau1Multiplier<0).*(tau1Multiplier).*T1Max ...
-  + (tau2Multiplier>=0).*(tau2Multiplier).*T2Min...
-  + (tau2Multiplier<0).*(tau2Multiplier).*T2Max;
+% hamValue = extraTerms...
+%   + (tau1Multiplier>=0).*(tau1Multiplier).*T1Min ...
+%   + (tau1Multiplier<0).*(tau1Multiplier).*T1Max ...
+%   + (tau2Multiplier>=0).*(tau2Multiplier).*T2Min...
+%   + (tau2Multiplier<0).*(tau2Multiplier).*T2Max;
+
+hamValue = extraTerms + tau1Multiplier.*tau1test{1}+tau2Multiplier.*tau2test{2};
+for i = 2:8
+  hamValueNew = extraTerms + tau1Multiplier.*tau1test{i}+tau2Multiplier.*tau2test{i};
+  hamValue = min(hamValue,hamValueNew);
+end
 
 hamValue = -hamValue;
+hamValue(isnan(hamValue))=1000;
 end
