@@ -1,4 +1,4 @@
-function [data, g, tau] = Double_KneeHips_Backward(gpoints, T1Max, T2Max, TAMax, accuracy)
+function [data, g, tau] = Double_KneeHips_Backward(gpoints, accuracy,T1Max, T1Min, T2Max, T2Min, TAMax, TAMin)
 %% Grid
 grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
 grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
@@ -27,21 +27,31 @@ tau = t0:dt:tMax;
 %% problem parameters
 % T1Max = 1;
 % T2Max = 1;
-R1 = .276;
-R2 = .222;
-M1 = 12.4;
-M2 = 27.3;
-L0 = .430;
-L1 = .438;
+height = 1.72;
+mass = 62;
+M1 = 2*(0.1416*mass);       % mass of thighs 
+M2 = (.0694 +.4346)*mass;    % mass of head-arms-trunk
+L0 = .25*height;          % length of segment (shank)
+L1 = .26*height;          % length of segment .4(thigh)
+R1 = .43*L1;          % position of COM along segment (thigh)
+R2 = .6*.4*height;          % position of COM along segment (head-arms-trunk)
 
+if nargin < 3
+  T1Max = 107;
+  T1Min = -T1Max;
+  T2Max = 87;
+  T2Min = -60;
+  TAMax = 68;
+  TAMin = -50;
+end
 %% Pack problem parameters
 schemeData.grid = g; % Grid MUST be specified!
 schemeData.T1Max = T1Max;
-schemeData.T1Min = -T1Max;
+schemeData.T1Min = T1Min;
 schemeData.T2Max = T2Max;
-schemeData.T2Min = -T2Max;
+schemeData.T2Min = T2Min;
 schemeData.TAMax = TAMax;
-schemeData.TAMin = -TAMax;
+schemeData.TAMin = TAMin;
 schemeData.R1 = R1;
 schemeData.R2 = R2;
 schemeData.M1 = M1;
