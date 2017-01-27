@@ -68,6 +68,7 @@ tau0num3 = - M2.*R2.*grav.*sin(x1 + x3)...
 
 tau1multiplier = (tau1num1./denom1).*tau0num1 + (tau1num2./denom2).*tau0num2;
 tau2multiplier = (tau2num1./denom1).*tau0num1 + (tau2num2./denom2).*tau0num2;
+
 % Ankle Constraint that we're solving for:
 %  tau0 = tau1.*tau1multiplier - tau2.*tau2multiplier..
 %    + (num1/denom1).*tau0num1 + (num2/denom2).*tau0num2 + tau0num3;
@@ -106,7 +107,7 @@ for i = 1:2; %for each bound on taus (max&min)
   A = double(A);
   A(~A(:))=NaN;
   
-  %do this for indexing purposes
+  %do the following for indexing purposes
   q=3;
   if i == 1
     q = 0;
