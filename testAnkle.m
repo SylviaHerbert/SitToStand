@@ -21,7 +21,6 @@ x2 = g.xs{2};
 x3 = g.xs{3};
 x4 = g.xs{4};
 
-
 %dx1 = x2;
 
 %dx2 = tau1.*(tau1num1/denom1) - tau2.*(tau2num1/denom1) + (num1/denom1);
@@ -32,21 +31,21 @@ num1 = grav.*(M1.*R1.*R2 + M2.*L1.*R2).*sin(x1) + ...
   grav.*M2.*L1.*R2.*sin(x1+x3).*cos(x3) + ...
   M2.*L1.^2.*R2.*x2.^2.*cos(x3).*sin(x3);
 tau1num1 = R2;
-tau2num1 = (R2+L1.*cos(x3));
+tau2num1 = -(R2+L1.*cos(x3));
 
 %dx3 = x4;
 
 %dx4 = tau1.*(tau1num2/denom2) + tau2.*(tau2num2/denom2)  + (num2/denom2);
-num2 = (M2.^2.*R2.^2.*L1.*grav + M1.*M2.*R1.*R2.^2.*grav).*sin(x1) + ...
+num2 = -((M2.^2.*R2.^2.*L1.*grav + M1.*M2.*R1.*R2.^2.*grav).*sin(x1) + ...
   (-M2.^2.*R2.*L1.^2.*grav - M1.*M2.*R1.^2.*R2.*grav).*sin(x1 + x3) + ...
   ((M2.^2.*R2.*L1.^3+M1.*M2.*R1.^2.*R2.*L1).*x2.^2+ ...
   (M2.^2.*R2.^3.*L1).*(x2+x4).^2).*sin(x3) + ...
   (M2.^2.*R2.*L1.^2.*grav + M1.*M2.*R1.*R2.*L1.*grav).*cos(x3).*sin(x1) + ...
   (M2.^2.*R2.^2.*L1.^2.*(2.*x2.^2 + 2.*x2.*x4 + x4.^2)).*cos(x3).*sin(x3) - ...
-  M2.^2.*R2.^2.*L1.*grav.*sin(x1 + x3).*cos(x3);
+  M2.^2.*R2.^2.*L1.*grav.*sin(x1 + x3).*cos(x3));
 denom2 = (M2.*R2.^2.*(M1.*R1.^2 + M2.*L1.^2 - M2.*L1.^2.*cos(x3).^2));
 tau1num2 = -(M2.*R2.^2 + M2.*R2.*L1.*cos(x3));
-tau2num2= (-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(x3));
+tau2num2= -(-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(x3));
 
 
 %ankle torque constraint:  tau_min < tao0 < tau_max
@@ -69,6 +68,8 @@ tau0num3 = - M2.*R2.*grav.*sin(x1 + x3)...
 tau1multiplier = (tau1num1./denom1).*tau0num1 + (tau1num2./denom2).*tau0num2;
 tau2multiplier = (tau2num1./denom1).*tau0num1 + (tau2num2./denom2).*tau0num2;
 
+extraTerms = (num1./denom1).*tau0num1 + (num2./denom2).*tau0num2 + tau0num3;
+
 % Ankle Constraint that we're solving for:
 %  tau0 = tau1.*tau1multiplier - tau2.*tau2multiplier..
 %    + (num1/denom1).*tau0num1 + (num2/denom2).*tau0num2 + tau0num3;
@@ -81,17 +82,15 @@ tau2multiplier = (tau2num1./denom1).*tau0num1 + (tau2num2./denom2).*tau0num2;
 tau1test = cell(8,1);
 tau2test = cell(8,1);
 
-for i = 1:2; %for each bound on taus (max&min)
-  
+% for i = 1:2; %for each bound on taus (max&min)
+ for i = 1:2
   %take that bound for tau1, tau2
   tau1 = tau1Bound(i);
   tau2 = tau2Bound(i);
   
   %plug tau2 bound into ankle constraint, solve for tauAnkleMin + tauAnkleMax
-  tau1Test1 = (tauAnkleMin + tau2.*tau2multiplier - (num1./denom1).*tau0num1...
-    - (num2./denom2).*tau0num2 - tau0num3)./tau1multiplier;
-  tau1Test2 = (tauAnkleMax + tau2.*tau2multiplier - (num1./denom1).*tau0num1...
-    - (num2./denom2).*tau0num2 - tau0num3)./tau1multiplier;
+  tau1Test1 = (tauAnkleMin - tau2.*tau2multiplier - extraTerms)./tau1multiplier;
+  tau1Test2 = (tauAnkleMax - tau2.*tau2multiplier - extraTerms)./tau1multiplier;
   
   %Want to take the intersection between the range of tau1 allowed by the
   %ankle constraint and the range of tau1 itself
@@ -121,10 +120,8 @@ for i = 1:2; %for each bound on taus (max&min)
   tau2test{q+i+1}=tau2.*A;
   
   %do the same thing with tau2
-  tau2Test1 = (tau1.*tau1multiplier - tauAnkleMin...
-    + (num1./denom1).*tau0num1 + (num2./denom2).*tau0num2 + tau0num3)./tau2multiplier;
-  tau2Test2 = (tau1.*tau1multiplier - tauAnkleMax...
-    + (num1./denom1).*tau0num1 + (num2./denom2).*tau0num2 + tau0num3)./tau2multiplier;
+  tau2Test1 = (tauAnkleMin - tau1.*tau1multiplier - extraTerms)./tau2multiplier;
+  tau2Test2 = (tauAnkleMax - tau1.*tau1multiplier - extraTerms)./tau2multiplier;
   
   tau2Lim1=max(min(tau2Test1,tau2Test2),tau2Bound(1));
   tau2Lim2=min(max(tau2Test1,tau2Test2),tau2Bound(2));
