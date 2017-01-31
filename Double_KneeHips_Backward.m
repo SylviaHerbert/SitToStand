@@ -1,4 +1,4 @@
-function [data, g, tau] = Double_KneeHips_Backward(gpoints, accuracy,T1Max, T1Min, T2Max, T2Min, TAMax, TAMin)
+function [data, g, tau] = Double_KneeHips_Backward(gpoints, accuracy, tMax, T1Max, T1Min, T2Max, T2Min, TAMax, TAMin)
 %% Grid
 grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
 grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
@@ -19,7 +19,11 @@ data = shapeRectangleByCorners(g, [-pi/15;-.1; -pi/80;-.1],[pi/80;.1; pi/15;.1])
 
 %% time vector
 t0 = 0;
+
+if nargin < 3)
 tMax = 2;
+end
+
 dt = 0.025;
 tau = t0:dt:tMax;
 % If intermediate results are not needed, use tau = [t0 tMax];
@@ -36,7 +40,7 @@ L1 = .26*height;          % length of segment .4(thigh)
 R1 = .43*L1;          % position of COM along segment (thigh)
 R2 = .6*.4*height;          % position of COM along segment (head-arms-trunk)
 
-if nargin < 3
+if nargin < 4
   T1Max = 107;
   T1Min = -T1Max;
   T2Max = 87;

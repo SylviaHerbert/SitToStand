@@ -3,7 +3,7 @@
 clear; close all;
 view = 'allowed_states';
 % slice = [0 0];
-% slice = 'min';
+ slice = 'min';
 
 
 %% set up Grid, Initial Data
