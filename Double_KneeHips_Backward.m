@@ -20,7 +20,7 @@ data = shapeRectangleByCorners(g, [-pi/15;-.1; -pi/80;-.1],[pi/80;.1; pi/15;.1])
 %% time vector
 t0 = 0;
 
-if nargin < 3)
+if nargin < 3
 tMax = 2;
 end
 
