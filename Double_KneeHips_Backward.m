@@ -31,7 +31,7 @@ if nargin < 3
 tMax = 2;
 end
 
-dt = 0.1;
+dt = 0.01;
 tau = t0:dt:tMax;
 % If intermediate results are not needed, use tau = [t0 tMax];
 
@@ -79,8 +79,9 @@ schemeData.partialFunc = @pendulum4Dpartial;
 %extraArgs.visualize = true;
 %extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
 %extraArgs.saveFrequency = 100;
+extraArgs.stopInit = [pi/2 0 -pi/2 0];
 [data, tau] = HJIPDE_solve( ...
-  data, tau, schemeData, 'zero');
+  data, tau, schemeData, 'zero', extraArgs);
 %data = min(data,[],5);
 end
 % %% Ignore everything after this; using it to troubleshoot
