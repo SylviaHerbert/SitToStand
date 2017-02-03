@@ -17,7 +17,7 @@ g = createGrid(grid_min, grid_max, N);
  
 %data = shapeRectangleByCorners(g, [-pi/15;-pi/15; -pi/80;-pi/15],[pi/80;pi/15; pi/15;pi/15]);
 
-max_v = pi/8;       % allowing for some sway
+max_v = (pi/8)/2;       % allowing for some sway
 standing_min = [-pi/15, -max_v, -pi/15, -max_v];
 standing_max = [pi/15, max_v, 0.15, max_v];
 
@@ -49,12 +49,20 @@ R2 = .6*.4*height;          % position of COM along segment (head-arms-trunk)
 
 if nargin < 4
   T1Max = 107;
-  T1Min = -T1Max;
-  T2Max = 87;
-  T2Min = -60;
-  TAMax = 68;
-  TAMin = -50;
+T1Min = -T1Max;
+T2Max = 87;
+T2Min = -60;
+TAMax = 68;
+TAMin = -50;
 end
+
+alpha = .25;
+T1Max = alpha*T1Max;
+T1Min = alpha*T1Min;
+T2Max = alpha*T2Max;
+T2Min = alpha*T2Min;
+TAMax = alpha*TAMax;
+TAMin = alpha*TAMin;
 %% Pack problem parameters
 schemeData.grid = g; % Grid MUST be specified!
 schemeData.T1Max = T1Max;
