@@ -88,6 +88,7 @@ if strcmp(view,'allowed_states')
 % vKnee vHip are the velocities you want to use
 
 [g2D, A2D]=proj(g,A,[0 1 0 1],slice); %project through to 2D
+[g1D, A1D] = proj(g2D,A2D,[1 0],-pi/2);
 
 % we care only about the points on this 2D grid that have feasible torques.
 % we're going to do some awkward manipulation to make sure we only have
@@ -97,17 +98,21 @@ Anew = Anan<1;
 gtest1 = g2D.xs{1}.*Anew; %removed not-allowed points from grid
 gtest2 = g2D.xs{2}.*Anew;
 
+
 gtest1_rem = g2D.xs{1}.*Anan; %removed not-allowed points from grid
 gtest2_rem = g2D.xs{2}.*Anan;
 
+
 % Plot feasible/infeasible states
 figure(1)
-suptitle('any velocity')
 ax1 = subplot(1,2,1);
+suptitle('any velocity')
+
 
 %get rid of all the 0's
 ang1 = gtest1(gtest1~=0);%-pi/15;
 ang2 = gtest2(gtest2~=0);%-pi/80;
+
 
 %what the angles are relative to y axis
 knee = ang1;

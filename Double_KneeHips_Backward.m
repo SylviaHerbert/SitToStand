@@ -1,7 +1,9 @@
 function [data, g, tau] = Double_KneeHips_Backward(gpoints, accuracy, tMax, T1Max, T1Min, T2Max, T2Min, TAMax, TAMin)
 %% Grid
-grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
-grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
+grid_max = [-0.29, -6.31, -2.67, -7.57];
+grid_min = [1.89, 4.51, 0.15, 8.91];
+%grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
+%grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
 %grid_min = [-1.8091-.5; -3.289-.5; .0013-.5; -4.99-.5]; % Lower corner of computation domain
 %grid_max = [.0247+.5; 4.4269+.5; 2.4655+.5; 1.8952+.5];    % Upper corner of computation domain
 N = gpoints*ones(4,1);         % Number of grid points per dimension, default to 41
@@ -14,7 +16,12 @@ g = createGrid(grid_min, grid_max, N);
 %data = shapeRectangleByCorners(g, [-pi/15;-pi/4; -pi/80;-pi/4],[pi/80;pi/4; pi/15;pi/4]);
  
 %data = shapeRectangleByCorners(g, [-pi/15;-pi/15; -pi/80;-pi/15],[pi/80;pi/15; pi/15;pi/15]);
-data = shapeRectangleByCorners(g, [-pi/15;-.1; -pi/80;-.1],[pi/80;.1; pi/15;.1]); 
+
+max_v = pi/8;       % allowing for some sway
+standing_min = [-pi/15, -max_v, -pi/15, -max_v];
+standing_max = [pi/15, max_v, 0.15, max_v];
+
+data = shapeRectangleByCorners(g, standing_min, standing_max);
 % also try shapeRectangleByCorners, shapeSphere, etc.
 
 %% time vector
@@ -24,7 +31,7 @@ if nargin < 3
 tMax = 2;
 end
 
-dt = 0.025;
+dt = 0.002;
 tau = t0:dt:tMax;
 % If intermediate results are not needed, use tau = [t0 tMax];
 
@@ -72,9 +79,9 @@ schemeData.partialFunc = @pendulum4Dpartial;
 %extraArgs.visualize = true;
 %extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
 %extraArgs.saveFrequency = 100;
-[data, tau, extraOuts] = HJIPDE_solve( ...
+[data, tau] = HJIPDE_solve( ...
   data, tau, schemeData, 'zero');
-data = min(data,[],5);
+%data = min(data,[],5);
 end
 % %% Ignore everything after this; using it to troubleshoot
 % visualize = 1;
