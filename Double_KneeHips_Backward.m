@@ -31,7 +31,7 @@ if nargin < 3
 tMax = 2;
 end
 
-dt = 0.002;
+dt = 0.1;
 tau = t0:dt:tMax;
 % If intermediate results are not needed, use tau = [t0 tMax];
 
