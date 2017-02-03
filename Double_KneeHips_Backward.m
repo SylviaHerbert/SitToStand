@@ -1,7 +1,7 @@
 function [data, g, tau] = Double_KneeHips_Backward(gpoints, accuracy, tMax, T1Max, T1Min, T2Max, T2Min, TAMax, TAMin)
 %% Grid
-grid_max = [-0.29, -6.31, -2.67, -7.57];
-grid_min = [1.89, 4.51, 0.15, 8.91];
+grid_min = [-0.29, -6.31, -2.67, -7.57];
+grid_max = [1.89, 4.51, 0.15, 8.91];
 %grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
 %grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
 %grid_min = [-1.8091-.5; -3.289-.5; .0013-.5; -4.99-.5]; % Lower corner of computation domain
