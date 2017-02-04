@@ -1,0 +1,108 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@rmstyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand\BIBentrySTDinterwordspacing{\spaceskip=0pt\relax}
+\providecommand\BIBentryALTinterwordstretchfactor{4}
+\providecommand\BIBentryALTinterwordspacing{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand\BIBforeignlanguage[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+
+\bibitem{riley1991}
+P.~O. Riley, M.~L. Schenkman, R.~W. Mann, and W.~A. Hodge, ``Mechanics of a
+  constrained chair-rise,'' \emph{Journal of biomechanics}, vol.~24, no.~1, pp.
+  77--85, 1991.
+
+\bibitem{hughes1996}
+M.~A. Hughes, B.~S. Myers, and M.~L. Schenkman, ``The role of strength in
+  rising from a chair in the functionally impaired elderly,'' \emph{Journal of
+  biomechanics}, vol.~29, no.~12, pp. 1509--1513, 1996.
+
+\bibitem{su1998}
+F.~Su, K.~Lai, and W.~Hong, ``Rising from chair after total knee
+  arthroplasty,'' \emph{Clinical Biomechanics}, vol.~13, no.~3, pp. 176--181,
+  1998.
+
+\bibitem{Mak2013}
+M.~K. Mak, O.~Levin, J.~Mizrahi, and C.~W. Hui-Chan, ``Joint torques during
+  sit-to-stand in healthy subjects and people with parkinson’s disease,''
+  \emph{Clinical Biomechanics}, vol.~18, no.~3, pp. 197--206, 2013.
+
+\bibitem{whitney2005}
+S.~L. Whitney, D.~M. Wrisley, G.~F. Marchetti, M.~A. Gee, \emph{et~al.},
+  ``Clinical measurement of sit-to-stand performance in people with balance
+  disorders: validity of data for the five-times-sit-to-stand test,''
+  \emph{Physical therapy}, vol.~85, no.~10, p. 1034, 2005.
+
+\bibitem{campbell1989}
+A.~J. Campbell, M.~J. Borrie, and G.~F. Spears, ``Risk factors for falls in a
+  community-based prospective study of people 70 years and older,''
+  \emph{Journal of gerontology}, vol.~44, no.~5, pp. M112--M117, 1989.
+
+\bibitem{podsiadlo1991}
+D.~Podsiadlo and S.~Richardson, ``The timed "up \& go": A test of basic
+  functional mobility for frail elderly persons,'' \emph{Journal of the
+  American Geriatrics Society}, vol.~39, no.~2, pp. 142 --148, 1991.
+
+\bibitem{fujimoto2012}
+M.~Fujimoto and L.-S. Chou, ``Dynamic balance control during sit-to-stand
+  movement: an examination with the center of mass acceleration,''
+  \emph{Journal of biomechanics}, vol.~45, no.~3, pp. 543--548, 2012.
+
+\bibitem{mitchell2004}
+I.~M. Mitchell, ``A toolbox of level set methods,'' \emph{Dept. Comput. Sci.,
+  Univ. British Columbia, Vancouver, BC, Canada, http://www. cs. ubc. ca/\~{}
+  mitchell/ToolboxLS/toolboxLS. pdf, Tech. Rep. TR-2004-09}, 2004.
+
+\bibitem{etnyre2007}
+B.~Etnyre and D.~Q. Thomas, ``Event standardization of sit-to-stand
+  movements,'' \emph{Physical therapy}, vol.~87, no.~12, p. 1651, 2007.
+
+\bibitem{schenkman1990}
+M.~Schenkman, R.~A. Berger, P.~O. Riley, R.~W. Mann, and W.~A. Hodge,
+  ``Whole-body movements during rising to standing from sitting.''
+  \emph{Physical Therapy}, vol.~70, no.~10, pp. 638--48, 1990.
+
+\bibitem{music2008}
+J.~Musi{\'c}, R.~Kamnik, and M.~Munih, ``Model based inertial sensing of human
+  body motion kinematics in sit-to-stand movement,'' \emph{Simulation Modelling
+  Practice and Theory}, vol.~16, no.~8, pp. 933--944, 2008.
+
+\bibitem{matthew2016}
+R.~P. Matthew, V.~Shia, G.~Venture, and R.~Bajcsy, ``Generating physically
+  realistic kinematic and dynamic models from small data sets: An application
+  for sit-to-stand actions,'' in \emph{Engineering in Medicine and Biology
+  Society (EMBC), 2016 IEEE 38th Annual International Conference of the}.\hskip
+  1em plus 0.5em minus 0.4em\relax IEEE, 2016, pp. 2173--2178.
+
+\bibitem{plagenhoef1983}
+S.~Plagenhoef, F.~G. Evans, and T.~Abdelnour, ``Anatomical data for analyzing
+  human motion,'' \emph{Research quarterly for exercise and sport}, vol.~54,
+  no.~2, pp. 169--178, 1983.
+
+\bibitem{papa1999}
+E.~Papa and A.~Cappozzo, ``A telescopic inverted-pendulum model of the
+  musculo-skeletal system and its use for the analysis of the sit-to-stand
+  motor task,'' \emph{Journal of Biomechanics}, vol.~32, no.~11, pp.
+  1205--1212, 1999.
+
+\bibitem{roberts1996}
+P.~D. Roberts and G.~McCollum, ``Dynamics of the sit-to-stand movement,''
+  \emph{Biological cybernetics}, vol.~74, no.~2, pp. 147--157, 1996.
+
+\bibitem{schenkman1996}
+M.~Schenkman, P.~Riley, and C.~Pieper, ``Sit to stand from progressively lower
+  seat heights—alterations in angular velocity,'' \emph{Clinical
+  Biomechanics}, vol.~11, no.~3, pp. 153--158, 1996.
+
+\end{thebibliography}

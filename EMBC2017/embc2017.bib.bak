@@ -1,0 +1,183 @@
+% Encoding: UTF-8
+
+@Article{riley1991,
+  author    = {Riley, Patrick O and Schenkman, Margaret L and Mann, Robert W and Hodge, W Andrew},
+  title     = {Mechanics of a constrained chair-rise},
+  journal   = {Journal of biomechanics},
+  year      = {1991},
+  volume    = {24},
+  number    = {1},
+  pages     = {77--85},
+  publisher = {Elsevier},
+}
+
+@Article{whitney2005,
+  author    = {Whitney, Susan L and Wrisley, Diane M and Marchetti, Gregory F and Gee, Michael A and others},
+  title     = {Clinical measurement of sit-to-stand performance in people with balance disorders: validity of data for the Five-Times-Sit-to-Stand Test},
+  journal   = {Physical therapy},
+  year      = {2005},
+  volume    = {85},
+  number    = {10},
+  pages     = {1034},
+  publisher = {American Physical Therapy Association},
+}
+
+@Article{campbell1989,
+  author    = {Campbell, A John and Borrie, Michael J and Spears, George F},
+  title     = {Risk factors for falls in a community-based prospective study of people 70 years and older},
+  journal   = {Journal of gerontology},
+  year      = {1989},
+  volume    = {44},
+  number    = {5},
+  pages     = {M112--M117},
+  publisher = {Oxford University Press},
+}
+
+@Article{hughes1996,
+  author    = {Hughes, Michael A and Myers, Barry S and Schenkman, Margaret L},
+  title     = {The role of strength in rising from a chair in the functionally impaired elderly},
+  journal   = {Journal of biomechanics},
+  year      = {1996},
+  volume    = {29},
+  number    = {12},
+  pages     = {1509--1513},
+  publisher = {Elsevier},
+}
+
+@Article{etnyre2007,
+  author    = {Etnyre, Bruce and Thomas, David Q},
+  title     = {Event standardization of sit-to-stand movements},
+  journal   = {Physical therapy},
+  year      = {2007},
+  volume    = {87},
+  number    = {12},
+  pages     = {1651},
+  publisher = {American Physical Therapy Association},
+}
+
+@Article{schenkman1990,
+  author  = {Schenkman, Margaret and Berger, Richard A and Riley, Patrick O and Mann, Rbert W and Hodge, W Andrew},
+  title   = {Whole-body movements during rising to standing from sitting.},
+  journal = {Physical Therapy},
+  year    = {1990},
+  volume  = {70},
+  number  = {10},
+  pages   = {638--48},
+}
+
+@Article{mitchell2004,
+  author  = {Mitchell, Ian M},
+  title   = {A toolbox of level set methods},
+  journal = {Dept. Comput. Sci., Univ. British Columbia, Vancouver, BC, Canada, http://www. cs. ubc. ca/\~{} mitchell/ToolboxLS/toolboxLS. pdf, Tech. Rep. TR-2004-09},
+  year    = {2004},
+}
+
+@Article{music2008,
+  author    = {Musi{\'c}, Josip and Kamnik, Roman and Munih, Marko},
+  title     = {Model based inertial sensing of human body motion kinematics in sit-to-stand movement},
+  journal   = {Simulation Modelling Practice and Theory},
+  year      = {2008},
+  volume    = {16},
+  number    = {8},
+  pages     = {933--944},
+  publisher = {Elsevier},
+}
+
+@Article{su1998,
+  author    = {Su, FC and Lai, KA and Hong, WH},
+  title     = {Rising from chair after total knee arthroplasty},
+  journal   = {Clinical Biomechanics},
+  year      = {1998},
+  volume    = {13},
+  number    = {3},
+  pages     = {176--181},
+  publisher = {Elsevier},
+}
+
+@Article{khemlani1999,
+  author    = {Khemlani, MM and Carr, JH and Crosbie, WJ},
+  title     = {Muscle synergies and joint linkages in sit-to-stand under two initial foot positions},
+  journal   = {Clinical Biomechanics},
+  year      = {1999},
+  volume    = {14},
+  number    = {4},
+  pages     = {236--246},
+  publisher = {Elsevier},
+}
+
+@Article{schenkman1996,
+  author    = {Schenkman, M and Riley, PO and Pieper, C},
+  title     = {Sit to stand from progressively lower seat heights—alterations in angular velocity},
+  journal   = {Clinical Biomechanics},
+  year      = {1996},
+  volume    = {11},
+  number    = {3},
+  pages     = {153--158},
+  publisher = {Elsevier},
+}
+
+@Article{roberts1996,
+  author    = {Roberts, Patrick D and McCollum, Gin},
+  title     = {Dynamics of the sit-to-stand movement},
+  journal   = {Biological cybernetics},
+  year      = {1996},
+  volume    = {74},
+  number    = {2},
+  pages     = {147--157},
+  publisher = {Springer},
+}
+
+@Article{papa1999,
+  author    = {Papa, Elisabetta and Cappozzo, Aurelio},
+  title     = {A telescopic inverted-pendulum model of the musculo-skeletal system and its use for the analysis of the sit-to-stand motor task},
+  journal   = {Journal of Biomechanics},
+  year      = {1999},
+  volume    = {32},
+  number    = {11},
+  pages     = {1205--1212},
+  publisher = {Elsevier},
+}
+
+@InProceedings{matthew2016,
+  author        = {Matthew, Robert Peter and Shia, Victor and Venture, Gentiane and Bajcsy, Ruzena},
+  title         = {Generating physically realistic kinematic and dynamic models from small data sets: An application for sit-to-stand actions},
+  booktitle     = {Engineering in Medicine and Biology Society (EMBC), 2016 IEEE 38th Annual International Conference of the},
+  year          = {2016},
+  pages         = {2173--2178},
+  organization  = {IEEE},
+  __markedentry = {[seko:]},
+}
+
+@Article{fujimoto2012,
+  author        = {Fujimoto, Masahiro and Chou, Li-Shan},
+  title         = {Dynamic balance control during sit-to-stand movement: an examination with the center of mass acceleration},
+  journal       = {Journal of biomechanics},
+  year          = {2012},
+  volume        = {45},
+  number        = {3},
+  pages         = {543--548},
+  __markedentry = {[seko:6]},
+  publisher     = {Elsevier},
+}
+
+@Article{podsiadlo1991,
+  author  = {Diane Podsiadlo and Sandra Richardson},
+  title   = {The Timed "Up \& Go": A Test of Basic Functional Mobility for Frail Elderly Persons},
+  journal = {Journal of the American Geriatrics Society},
+  year    = {1991},
+  volume  = {39},
+  number  = {2},
+  pages   = {142 -148},
+}
+
+@Article{Mak2013,
+  author  = {M. K. Mak and O. Levin and J. Mizrahi and C. W. Hui-Chan},
+  title   = {Joint torques during sit-to-stand in healthy subjects and people with Parkinson’s disease},
+  journal = {Clinical Biomechanics},
+  year    = {2013},
+  volume  = {18},
+  number  = {3},
+  pages   = {197-206},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
