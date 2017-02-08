@@ -71,12 +71,12 @@ tau2Multiplier = (-p{2}.*(R2+L1.*cos(ang2))./denom1...
 %   + (tau2Multiplier>=0).*(tau2Multiplier).*T2Min...
 %   + (tau2Multiplier<0).*(tau2Multiplier).*T2Max;
 
-hamValue = extraTerms + tau1Multiplier.*tau1test{1}+tau2Multiplier.*tau2test{2};
+hamValue = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,1)+tau2Multiplier.*tau2test(:,:,:,:,1);
 for i = 2:8
-  hamValueNew = extraTerms + tau1Multiplier.*tau1test{i}+tau2Multiplier.*tau2test{i};
+  hamValueNew = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,i)+tau2Multiplier.*tau2test(:,:,:,:,i);
   hamValue = min(hamValue,hamValueNew);
 end
 
 hamValue = -hamValue;
-hamValue(isnan(hamValue))=1000;
+%hamValue(isnan(hamValue))=1000;
 end

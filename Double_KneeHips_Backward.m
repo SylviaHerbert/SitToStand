@@ -2,16 +2,12 @@ function [data, g, tau] = Double_KneeHips_Backward(gpoints, accuracy, tMax, T1Ma
 %% Grid
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
-%grid_min = [-1.8091-pi/15, -0.3289-pi/15, 0.0013-pi/15, -4.9904-pi/15];
-%grid_max = [0.0247+pi/15, 4.4269+pi/15, 2.4655+pi/15, 1.8952+pi/15];
-%grid_min = [-1.8091-.5; -3.289-.5; .0013-.5; -4.99-.5]; % Lower corner of computation domain
-%grid_max = [.0247+.5; 4.4269+.5; 2.4655+.5; 1.8952+.5];    % Upper corner of computation domain
 N = gpoints*ones(4,1);         % Number of grid points per dimension, default to 41
-%pdDims = [1,3];               % 1st, 3rd dimension is periodic
 g = createGrid(grid_min, grid_max, N);
-% Use "g = createGrid(grid_min, grid_max, N);" if there are no periodic
-% state space dimensions
 
+
+%Want to drop # of test points from 8 to 6? use trim.
+trim = 1;
 %% target set
 %data = shapeRectangleByCorners(g, [-pi/15;-pi/4; -pi/80;-pi/4],[pi/80;pi/4; pi/15;pi/4]);
  
@@ -56,7 +52,7 @@ TAMax = 68;
 TAMin = -50;
 end
 
-alpha = .25;
+alpha = .1;
 T1Max = alpha*T1Max;
 T1Min = alpha*T1Min;
 T2Max = alpha*T2Max;
@@ -77,8 +73,9 @@ schemeData.M1 = M1;
 schemeData.M2 = M2;
 schemeData.L1 = L1;
 schemeData.L0 = L0;
+schemeData.height = height;
 schemeData.accuracy = accuracy; %default is medium
-schemeData = testAnkle(schemeData); %add in ankle constraints
+schemeData = testAnkle(schemeData,trim); %add in ankle constraints
 
 % ----- System dynamics are specified here -----
 schemeData.hamFunc = @pendulum4DHam;
