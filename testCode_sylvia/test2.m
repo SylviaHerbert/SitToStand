@@ -1,8 +1,10 @@
+function test2(data,g,tau)
+
 %This file makes a gif and an avi file from 3D projections across different
 %numbers of psi and v sections. Right now it's set up to do an xyv slice
 
-gif_out_filename = './visualize_STS_BRS_1.gif'; %v_goal.gif';   %Setup filename for gif
-avi_out_filename = './visualize_STS_BRS_1.avi'; %v_goal.avi';
+gif_out_filename = './visualize_STS_BRS_alphaPoint1.gif'; %v_goal.gif';   %Setup filename for gif
+avi_out_filename = './visualize_STS_BRS_alphaPoint1.avi'; %v_goal.avi';
 
 % Have to prepare the video writer object first
 v = VideoWriter(avi_out_filename);
@@ -54,3 +56,4 @@ end
 
 %Close avi file
 close(v);
+end

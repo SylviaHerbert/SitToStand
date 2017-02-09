@@ -2,7 +2,7 @@ function [schemeData] = testAnkle(schemeData, trim)
 if nargin <1
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
-N = 20*ones(4,1);         % Number of grid points per dimension, default to 41
+N = 35*ones(4,1);         % Number of grid points per dimension, default to 41
 g = createGrid(grid_min, grid_max, N);
 height = 1.72;
 mass = 62;

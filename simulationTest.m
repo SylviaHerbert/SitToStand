@@ -1,4 +1,4 @@
-function simulationTest(schemeData, view)
+function [PercentFeasible, Control]=simulationTest(schemeData, view)
 %view options:
 % allowed_states
 % sitting_conditions
@@ -109,6 +109,8 @@ tau2NoControl = ((tau2Minstemp+tau2Maxstemp) == 2);
 
 NoControl = ((tau1NoControl+tau2NoControl)==2); %points where min and max for everything is 0
 Control = 1-NoControl;
+% number of states that have control available / all states
+PercentFeasible = nnz(Control)/numel(Control);
 
 %% Project data through to 2D so we can view it
 
