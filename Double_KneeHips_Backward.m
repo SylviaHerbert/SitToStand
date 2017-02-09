@@ -20,7 +20,7 @@ data = shapeRectangleByCorners(g, standing_min, standing_max);
 t0 = 0;
 
 if nargin < 3
-tMax = 2;
+tMax = 1;
 end
 
 dt = 0.01;
@@ -84,7 +84,8 @@ schemeData.partialFunc = @pendulum4Dpartial;
 %extraArgs.visualize = true;
 %extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
 %extraArgs.saveFrequency = 100;
-extraArgs.stopInit = [pi/2 0 -pi/2 0];
+%extraArgs.stopInit = [pi/2 0 -pi/2 0];
+extraArgs.stopConverge = 1;
 [data, tau] = HJIPDE_solve( ...
   data, tau, schemeData, 'zero', extraArgs);
 %data = min(data,[],5);
