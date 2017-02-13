@@ -3,13 +3,13 @@ function test2(data,g,tau,nn_intersect,ss_intersect,df_intersect)
 %This file makes a gif and an avi file from 3D projections across different
 %numbers of psi and v sections. Right now it's set up to do an xyv slice
 
-% gif_out_filename = './visualize_STS_BRS_alphaPoint1.gif'; %v_goal.gif';   %Setup filename for gif
-% avi_out_filename = './visualize_STS_BRS_alphaPoint1.avi'; %v_goal.avi';
-% 
-% % Have to prepare the video writer object first
-% v = VideoWriter(avi_out_filename);
-% v.FrameRate = 2;   %Set framerate of playback. 30 is normal.
-% open(v)   %Opens the file for writing. Make sure to close at the end!!
+gif_out_filename = './visualize_STS_BRS_alphaPoint15.gif'; %v_goal.gif';   %Setup filename for gif
+avi_out_filename = './visualize_STS_BRS_alphaPoint15.avi'; %v_goal.avi';
+
+% Have to prepare the video writer object first
+v = VideoWriter(avi_out_filename);
+v.FrameRate = 10;   %Set framerate of playback. 30 is normal.
+open(v)   %Opens the file for writing. Make sure to close at the end!!
 
 for i = 1:length(data(1,1,1,1,:))
 %slices = linspace(0, -pi/2, 30);
@@ -43,25 +43,24 @@ plot(ss_intersect(:,3), nn_intersect(:,4), 'g*')
 h2 = visSetIm(g2D, data2D);
 xlabel('hip angle')
 ylabel('hip velocity')
-title('slice at sitting angle')
+title('slice at transition, alpha = 0.15')
 
 figure(1)
-% frame = getframe(gcf);   %Get data from figue 1
-%   image_data = frame2im(frame);   %convert data to image information (this goes straight into avi)
-%   [imind,cm] = rgb2ind(image_data,256);   %convert image information to index and colormap for gif (don't worry about this part)
-%   
-%   if i == 1;   %Make sure this is the loop index == 1
-%     imwrite(imind,cm,gif_out_filename,'gif', 'Loopcount',inf);   %If you're on the first pass, make a new gif
-%   else
-%     imwrite(imind,cm,gif_out_filename,'gif','WriteMode','append');   %If it's not the first pass, append
-%   end
-%   
-%   % Make .avi of same thing
-%   writeVideo(v,image_data)
-pause
+frame = getframe(gcf);   %Get data from figue 1
+  image_data = frame2im(frame);   %convert data to image information (this goes straight into avi)
+  [imind,cm] = rgb2ind(image_data,256);   %convert image information to index and colormap for gif (don't worry about this part)
+  
+  if i == 1;   %Make sure this is the loop index == 1
+    imwrite(imind,cm,gif_out_filename,'gif', 'Loopcount',inf);   %If you're on the first pass, make a new gif
+  else
+    imwrite(imind,cm,gif_out_filename,'gif','WriteMode','append');   %If it's not the first pass, append
+  end
+  
+  % Make .avi of same thing
+  writeVideo(v,image_data)
 end
 
 
 %Close avi file
-% close(v);
+ close(v);
 end
