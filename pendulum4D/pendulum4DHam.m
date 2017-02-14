@@ -87,11 +87,11 @@ tau1Multiplier = (p{2}.*tau1num1./denom1 + p{4}.*tau1num2./denom2);
 
 tau2Multiplier = (p{2}.*tau2num1./denom1 + p{4}.*tau2num2./denom2);
 
-hamValues = zeros(1,length(tau1test(1,1,1,1,:)));
+  hamValue = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,1)+tau2Multiplier.*tau2test(:,:,:,:,1);
 for i = 1:length(tau1test(1,1,1,1,:))
-  hamValues(i) = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,i)+tau2Multiplier.*tau2test(:,:,:,:,i);
+  hamValueNew = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,i)+tau2Multiplier.*tau2test(:,:,:,:,i);
+  hamValue = min(hamValue,hamValueNew);
 end
-hamValue = min(hamValues);
 
 hamValue = -hamValue;
 %hamValue(isnan(hamValue))=1000;
