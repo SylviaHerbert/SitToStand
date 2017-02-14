@@ -21,10 +21,10 @@ checkStructureFields(schemeData, 'grid',  'R1', 'R2',...
   'M1','M2','L1','T1Max','T2Max');
 
 g = schemeData.grid;
-ang1 = g.xs{1};
-vel1 = g.xs{2};
-ang2 = g.xs{3};
-vel2 = g.xs{4};
+x{1} = g.xs{1};
+x{2} = g.xs{2};
+x{3} = g.xs{3};
+x{4} = g.xs{4};
 p = deriv;
 
 R1 = schemeData.R1;
@@ -41,41 +41,57 @@ tau2test = schemeData.tau2test;
 % T2Min = -T2Max;
 grav = 9.81;
 
-num1 =(grav.*(M1.*R1.*R2 + M2.*L1.*R2).*sin(ang1) + ...
-  (vel1 + vel2).^2.*L1.*M2.*R2.^2.*sin(ang2) - ...
-  grav.*M2.*L1.*R2.*sin(ang1+ang2).*cos(ang2) + ...
-  M2.*L1.^2.*R2.*vel1.^2.*cos(ang2).*sin(ang2));
+%dx{1} = x{2};
 
-denom1 =(L1.^2.*M2.*R2 + M1.*R1.^2.*R2 - ...
-  L1.^2.*M2.*R2.*cos(ang2).^2);
+%dx{2} = tau1.*(tau1num1/denom1) + tau2.*(tau2num1/denom1) + (num1/denom1);
+denom1 = (L1.^2.*M2.*R2 + M1.*R1.^2.*R2 - ...
+  L1.^2.*M2.*R2.*cos(x{3}).^2);
+num1 = grav.*(M1.*R1.*R2 + M2.*L1.*R2).*sin(x{1}) + ...
+  (x{2} + x{4}).^2.*L1.*M2.*R2.^2.*sin(x{3}) - ...
+  grav.*M2.*L1.*R2.*sin(x{1}+x{3}).*cos(x{3}) + ...
+  M2.*L1.^2.*R2.*x{2}.^2.*cos(x{3}).*sin(x{3});
+tau1num1 = R2;
+tau2num1 = -(R2+L1.*cos(x{3}));
 
-num2 = (-(M2.^2.*R2.^2.*L1.*grav + M1.*M2.*R1.*R2.^2.*grav).*sin(ang1)+...
--(-M2.^2.*R2.*L1.^2.*grav - M1.*M2.*R1.^2.*R2.*grav).*sin(ang1 + ang2)+...
--((M2.^2.*R2.*L1.^3+M1.*M2.*R1.^2.*R2.*L1).*vel1.^2+(M2.^2.*R2.^3.*L1).*(vel1+vel2).^2).*sin(ang2)+...
--(M2.^2.*R2.*L1.^2.*grav + M1.*M2.*R1.*R2.*L1.*grav).*cos(ang2).*sin(ang1)+...
--(M2.^2.*R2.^2.*L1.^2.*(2.*vel1.^2 + 2.*vel1.*vel2 + vel2.^2)).*cos(ang2).*sin(ang2)+...
- M2.^2.*R2.^2.*L1.*grav.*sin(ang1 + ang2).*cos(ang2));
+%dx{3} = x{4};
 
-denom2 = (M2.*R2.^2.*(M1.*R1.^2 + M2.*L1.^2 - M2.*L1.^2.*cos(ang2).^2));
+%dx{4} = tau1.*(tau1num2/denom2) + tau2.*(tau2num2/denom2)  + (num2/denom2);
+num2 = -((M2.^2.*R2.^2.*L1.*grav + M1.*M2.*R1.*R2.^2.*grav).*sin(x{1}) + ...
+  (-M2.^2.*R2.*L1.^2.*grav - M1.*M2.*R1.^2.*R2.*grav).*sin(x{1} + x{3}) + ...
+  ((M2.^2.*R2.*L1.^3+M1.*M2.*R1.^2.*R2.*L1).*x{2}.^2+ ...
+  (M2.^2.*R2.^3.*L1).*(x{2}+x{4}).^2).*sin(x{3}) + ...
+  (M2.^2.*R2.*L1.^2.*grav + M1.*M2.*R1.*R2.*L1.*grav).*cos(x{3}).*sin(x{1}) + ...
+  (M2.^2.*R2.^2.*L1.^2.*(2.*x{2}.^2 + 2.*x{2}.*x{4} + x{4}.^2)).*cos(x{3}).*sin(x{3}) - ...
+  M2.^2.*R2.^2.*L1.*grav.*sin(x{1} + x{3}).*cos(x{3}));
+denom2 = (M2.*R2.^2.*(M1.*R1.^2 + M2.*L1.^2 - M2.*L1.^2.*cos(x{3}).^2));
+tau1num2 = -(M2.*R2.^2 + M2.*R2.*L1.*cos(x{3}));
+tau2num2= -(-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(x{3}));
 
-extraTerms = p{1}.*vel1 + p{3}.*vel2 + p{2}.*num1./denom1+p{4}.*num2./denom2;
+% p{1}.*dx{1} + p{2}.*dx{2} + p{3}.*dx{3} + p{4}.*dx{4}
 
-tau1Multiplier = (p{2}.*R2./denom1 - p{4}.*(M2.*R2.^2 + M2.*R2.*L1.*cos(ang2))./denom2);
+% p{1}.*x{2}+p{3}.*x{4} + ...
+% p{2}.*(tau1.*(tau1num1/denom1) + tau2.*(tau2num1/denom1)
+% +(num1/denom1))+...
+% p{4}.*(tau1.*(tau1num2/denom2) + tau2.*(tau2num2/denom2)  +
+% (num2/denom2))
 
-tau2Multiplier = (-p{2}.*(R2+L1.*cos(ang2))./denom1...
-    - p{4}.*(-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(ang2))./denom2);
-  
-% hamValue = extraTerms...
-%   + (tau1Multiplier>=0).*(tau1Multiplier).*T1Min ...
-%   + (tau1Multiplier<0).*(tau1Multiplier).*T1Max ...
-%   + (tau2Multiplier>=0).*(tau2Multiplier).*T2Min...
-%   + (tau2Multiplier<0).*(tau2Multiplier).*T2Max;
+% tau1.*(p{2}.*(tau1num1/denom1)+p{4}.*(tau1num2/denom2)) +...
+% tau2.*(p{2}.*(tau2num1/denom1)+p{4}.*(tau2num2/denom2)) +...
+% p{1}.*x{2}+p{3}.*x{4} + p{2}.*(num1/denom1) + p{4}.* (num2/denom2)
 
-hamValue = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,1)+tau2Multiplier.*tau2test(:,:,:,:,1);
-for i = 2:6
-  hamValueNew = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,i)+tau2Multiplier.*tau2test(:,:,:,:,i);
-  hamValue = min(hamValue,hamValueNew);
+
+
+extraTerms = p{1}.*x{2} + p{3}.*x{4} + p{2}.*num1./denom1+p{4}.*num2./denom2;
+
+tau1Multiplier = (p{2}.*tau1num1./denom1 + p{4}.*tau1num2./denom2);
+
+tau2Multiplier = (p{2}.*tau2num1./denom1 + p{4}.*tau2num2./denom2);
+
+hamValues = zeros(1,length(tau1test(1,1,1,1,:)));
+for i = 1:length(tau1test(1,1,1,1,:))
+  hamValues(i) = extraTerms + tau1Multiplier.*tau1test(:,:,:,:,i)+tau2Multiplier.*tau2test(:,:,:,:,i);
 end
+hamValue = min(hamValues);
 
 hamValue = -hamValue;
 %hamValue(isnan(hamValue))=1000;

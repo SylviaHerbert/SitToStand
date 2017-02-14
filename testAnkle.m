@@ -43,6 +43,7 @@ schemeData.M2 = M2;
 schemeData.L1 = L1;
 schemeData.L0 = L0;
 schemeData.L2 = L2;
+schemeData.grav = grav;
 end
 
 if nargin <2

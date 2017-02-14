@@ -1,4 +1,4 @@
-function [data, g, tau] = Double_KneeHips_Backward(gpoints, accuracy, tMax, alpha,schemeData)
+function [data, g, tau, schemeData] = Double_KneeHips_Backward(gpoints, accuracy, tMax, alpha,schemeData)
 %% Grid
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
