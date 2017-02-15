@@ -57,29 +57,42 @@ T2Max = alpha*T2Max;
 T2Min = alpha*T2Min;
 TAMax = alpha*TAMax;
 TAMin = alpha*TAMin;
+
+grav = 9.81;
 %% Pack problem parameters
 if nargin <5
-schemeData.grid = g; % Grid MUST be specified!
-schemeData.T1Max = T1Max;
-schemeData.T1Min = T1Min;
-schemeData.T2Max = T2Max;
-schemeData.T2Min = T2Min;
-schemeData.TAMax = TAMax;
-schemeData.TAMin = TAMin;
-schemeData.R1 = R1;
-schemeData.R2 = R2;
-schemeData.M1 = M1;
-schemeData.M2 = M2;
-schemeData.L1 = L1;
-schemeData.L0 = L0;
-schemeData.height = height;
-schemeData.accuracy = accuracy; %default is medium
-schemeData = testAnkle(schemeData,trim); %add in ankle constraints
+  schemeData.dynSys= STS4D([0 0 0 0], R1, R2, M1, M2, L1, L0, grav,...
+    T1Max, T1Min, T2Max, T2Min, TAMax, TAMin,[1:4]);
+  schemeData.grid = g; % Grid MUST be specified!
+  schemeData.T1Max = T1Max;
+  schemeData.T1Min = T1Min;
+  schemeData.T2Max = T2Max;
+  schemeData.T2Min = T2Min;
+  schemeData.TAMax = TAMax;
+  schemeData.TAMin = TAMin;
+  schemeData.R1 = R1;
+  schemeData.R2 = R2;
+  schemeData.M1 = M1;
+  schemeData.M2 = M2;
+  schemeData.L1 = L1;
+  schemeData.L0 = L0;
+  schemeData.grav = grav;
+  schemeData.height = height;
+  schemeData.accuracy = accuracy; %default is medium
+  [tau1s,tau2s] = testAnkle(schemeData,trim); %add in ankle constraints
+for i = 1:length(tau1s(1,1,1,1,:))
+schemeData.dynSys.tau1Test{i} = tau1s(:,:,:,:,i);
+schemeData.dynSys.tau2Test{i} = tau2s(:,:,:,:,i);
+end
+% 
+% schemeData.dynSys.tau1Test = tau1Test;
+% schemeData.dynSys.tau2Test = tau2Test;
+
 end
 
 % ----- System dynamics are specified here -----
-schemeData.hamFunc = @pendulum4DHam;
-schemeData.partialFunc = @pendulum4Dpartial;
+schemeData.hamFunc = @genericHam; %@pendulum4DHam;
+schemeData.partialFunc = @genericPartial;%@pendulum4Dpartial;
 %% solve
 %extraArgs.visualize = true;
 %extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';

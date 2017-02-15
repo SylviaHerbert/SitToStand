@@ -70,14 +70,11 @@ p = eval_u(g,deriv,body.x);
 
 % Find Optimal Control
 % at this state, what are the allowed controls?
+% Find the best of those controls
 
 [body] = tauPoints(body);
 
 uOpt = body.optCtrl(dt,body.x,p,'min');
-
-% Find the best of those controls
-%u = optControl(body.x, p,tau1,tau2,schemeData);
-%u = [0,0];
 
 % Update State
 body.updateState(uOpt, dt);
@@ -89,6 +86,17 @@ h.XData = x;
 h.YData = y;
 title(num2str(tau(i)));
 pause
+
+max_v = (pi/8);       % allowing for some sway
+standing_min = [-pi/15, -max_v, -pi/15, -max_v]';
+standing_max = [pi/15, max_v, 0.15, max_v]';
+upper = (z <= standing_max);
+lower = (z >= standing_min);
+
+if sum(upper)==4 && sum(lower)==4
+  break
+end
+
 end
 end
 

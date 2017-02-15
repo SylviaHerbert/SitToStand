@@ -1,4 +1,4 @@
-function dx = dynamics(obj, ~, x, u)
+function dx = dynamics(obj, ~, x, u, ~)
 
 dx = cell(obj.nx,1);
 dims = obj.dims;
@@ -63,11 +63,11 @@ switch dim
   case 1
     dx = x{dims==2};
   case 2
-    dx = u{1}*(tau1num1/denom1) + u{2}*(tau2num1/denom1) + (num1/denom1);
+    dx = u{1}.*(tau1num1/denom1) + u{2}.*(tau2num1./denom1) + (num1./denom1);
   case 3
     dx = x{dims==4};
   case 4
-    dx = u{1}*(tau1num2/denom2) + u{2}*(tau2num2/denom2) + (num2/denom2);
+    dx = u{1}.*(tau1num2./denom2) + u{2}.*(tau2num2./denom2) + (num2./denom2);
   otherwise
     error('Only dimension 1-4 are defined for dynamics of STS4D!')
 end

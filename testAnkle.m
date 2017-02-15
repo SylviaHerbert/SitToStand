@@ -1,4 +1,4 @@
-function [schemeData] = testAnkle(schemeData, trim)
+function [tau1Test, tau2Test] = testAnkle(schemeData, trim)
 if nargin <1
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
@@ -243,11 +243,13 @@ if trim
     end
     disp([num2str(q) ' of ' num2str(g.N(1)) ' done'])
   end
-  schemeData.tau1test = tau1Test;
-  schemeData.tau2test = tau2Test;
+%   schemeData.tau1test = tau1Test;
+%   schemeData.tau2test = tau2Test;
 else
-  schemeData.tau1test = tau1TestPoints;
-  schemeData.tau2test = tau2TestPoints;
+  tau1Test = tau1TestPoints;
+  tau2Test = tau2TestPoints;
+%   schemeData.tau1test = tau1TestPoints;
+%   schemeData.tau2test = tau2TestPoints;
 end
 
 end
