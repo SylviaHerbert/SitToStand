@@ -79,14 +79,14 @@ if nargin <5
   schemeData.grav = grav;
   schemeData.height = height;
   schemeData.accuracy = accuracy; %default is medium
-  [tau1s,tau2s] = testAnkle(schemeData,trim); %add in ankle constraints
-for i = 1:length(tau1s(1,1,1,1,:))
-schemeData.dynSys.tau1Test{i} = tau1s(:,:,:,:,i);
-schemeData.dynSys.tau2Test{i} = tau2s(:,:,:,:,i);
-end
+  [tau1s,tau2s, data] = testAnkle(schemeData, data, trim); %add in ankle constraints
+% for i = 1:length(tau1s(1,1,1,1,:))
+% schemeData.dynSys.tau1Test{i} = tau1s(:,:,:,:,i);
+% schemeData.dynSys.tau2Test{i} = tau2s(:,:,:,:,i);
+% end
 % 
-% schemeData.dynSys.tau1Test = tau1Test;
-% schemeData.dynSys.tau2Test = tau2Test;
+ schemeData.dynSys.tau1Test = tau1s;
+ schemeData.dynSys.tau2Test = tau2s;
 
 end
 

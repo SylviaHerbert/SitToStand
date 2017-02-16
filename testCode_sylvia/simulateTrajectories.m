@@ -74,7 +74,7 @@ p = eval_u(g,deriv,body.x);
 
 [body] = tauPoints(body);
 
-uOpt = body.optCtrl(dt,body.x,p,'min');
+uOpt = body.optCtrl(dt,body.x,p,uMode);
 
 % Update State
 body.updateState(uOpt, dt);

@@ -1,4 +1,4 @@
-function [tau1Test, tau2Test] = testAnkle(schemeData, trim)
+function [tau1TestPoints, tau2TestPoints, data] = testAnkle(schemeData, data, trim)
 if nargin <1
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
@@ -13,8 +13,9 @@ L1 = .26*height;          % length of segment .4(thigh)
 R1 = .43*L1;          % position of COM along segment (thigh)
 R2 = .6*.4*height;          % position of COM along segment (head-arms-trunk)
 L2 = .3*height;
+grav = 9.81;
 
-  T1Max = 107;
+T1Max = 107;
 T1Min = -T1Max;
 T2Max = 87;
 T2Min = -60;
@@ -46,7 +47,7 @@ schemeData.L2 = L2;
 schemeData.grav = grav;
 end
 
-if nargin <2
+if nargin <3
   trim = 1;
 end
 %%% double pendulum - ankle torque constraint
@@ -178,12 +179,16 @@ for i = 1:2
   
   %tau2Max must be greater than tau2Min for this to be a nonempty set
   A = tau2Max>=tau2Min; %cases when this is a nonempty set
+  A = double(A);
+  A(A==0)=nan;
   tau1 = tau1.*A;
+  tau2Min = tau2Min.*A;
+  tau2Max = tau2Max.*A;
   
   tau1TestPoints = cat(5,tau1TestPoints, tau1,tau1);
-  tau2TestPoints = cat(5,tau2TestPoints, tau2Min.*A, tau2Max.*A);
-  testPoints{end+1} = cat(5,tau1,tau2Min.*A);
-  testPoints{end+1} = cat(5,tau1,tau2Max.*A);
+  tau2TestPoints = cat(5,tau2TestPoints, tau2Min, tau2Max);
+%   testPoints{end+1} = cat(5,tau1,tau2Min);
+%   testPoints{end+1} = cat(5,tau1,tau2Max);
 end
 
 %Now solve for tau2 = T2Min then tau2 = T2Max
@@ -212,12 +217,17 @@ for i = 1:2
   
   %tau2Max must be greater than tau2Min for this to be a nonempty set
   A = tau1Max>=tau1Min; %cases when this is a nonempty set
+  A = double(A);
+  A(A==0)=nan;
   tau2 = tau2.*A;
+  tau1Min = tau1Min.*A;
+  tau1Max = tau1Max.*A;
   
-  tau1TestPoints = cat(5,tau1TestPoints, tau1Min.*A, tau1Max.*A);
+  
+  tau1TestPoints = cat(5,tau1TestPoints, tau1Min, tau1Max);
   tau2TestPoints = cat(5,tau2TestPoints, tau2, tau2);
-  %testPoints{end+1} = cat(5,tau1Min.*A,tau2);
-  %testPoints{end+1} = cat(5,tau1Max.*A,tau2);
+%   testPoints{end+1} = cat(5,tau1Min.*A,tau2);
+%   testPoints{end+1} = cat(5,tau1Max.*A,tau2);
   
   
 end  
@@ -226,18 +236,21 @@ end
 %  test
   
 if trim
-  tau1Test = zeros(g.N(1),g.N(2),g.N(3),g.N(4),6);
+  tau1Test = nan(g.N(1),g.N(2),g.N(3),g.N(4),6);
   tau2Test = tau1Test;
   for q = 1:g.N(1)
     for r = 1:g.N(2)
       for s = 1:g.N(3)
         for t = 1:g.N(4)
           test = squeeze([tau1TestPoints(q,r,s,t,:), tau2TestPoints(q,r,s,t,:)])';
-          test = unique(test,'rows');
-          for z = 1:length(test(:,1))
-            tau1Test(q,r,s,t,z)=test(z,1);
-            tau2Test(q,r,s,t,z)=test(z,2);
-          end
+            test = intersect(test,test,'rows');
+            if isempty(test)
+              data(q,r,s,t) = 1e6;
+            end
+            for z = 1:length(test(:,1))
+              tau1Test(q,r,s,t,z)=test(z,1);
+              tau2Test(q,r,s,t,z)=test(z,2);
+            end
         end
       end
     end
@@ -252,4 +265,11 @@ else
 %   schemeData.tau2test = tau2TestPoints;
 end
 
+tau1TestPoints = cell(1,length(tau1Test(1,1,1,1,:)));
+tau2TestPoints = cell(1,length(tau2Test(1,1,1,1,:)));
+
+for i = 1:length(tau1Test(1,1,1,1,:))
+tau1TestPoints{i} = tau1Test(:,:,:,:,i);
+tau2TestPoints{i} = tau2Test(:,:,:,:,i);
+end
 end

@@ -55,21 +55,28 @@ if iscell(deriv)
   tau1 = obj.tau1Test;
   tau2 = obj.tau2Test;
 
-hamValue = extraTerms + tau1Multiplier.*tau1{1}+tau2Multiplier.*tau2{1};
-uOpt = cell(obj.nu, 1);
-uOpt{1} = tau1{1};
-uOpt{2} = tau2{1};
 
-  if strcmp(uMode, 'max')
-    for i = 2:length(tau1)
+uOpt = cell(obj.nu, 1);
+uOpt{1} = nan.*ones(size(tau1{1}));
+uOpt{2} = uOpt{1};
+
+% hamValue = extraTerms + tau1Multiplier.*tau1{1}+tau2Multiplier.*tau2{1};
+% uOpt = cell(obj.nu, 1);
+% uOpt{1} = tau1{1};
+% uOpt{2} = tau2{1};
+
+  if strcmp(uMode, 'min')
+    hamValue = 1e6.*ones(size(tau1{1}));
+    for i = 1:length(tau1)
       hamValueNew = extraTerms + tau1Multiplier.*tau1{i}+tau2Multiplier.*tau2{i};
       update = (hamValueNew<=hamValue);
       uOpt{1}(update) = tau1{i}(update);
       uOpt{2}(update) = tau2{i}(update);
     end
     
-  elseif strcmp(uMode, 'min')
-    for i = 2:length(tau1)
+  elseif strcmp(uMode, 'max')
+    hamValue = -1e6.*ones(size(tau1{1}));
+    for i = 1:length(tau1)
       hamValueNew = extraTerms + tau1Multiplier.*tau1{i}+tau2Multiplier.*tau2{i};
       update = (hamValueNew>=hamValue);
       uOpt{1}(update) = tau1{i}(update);
