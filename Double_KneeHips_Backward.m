@@ -1,4 +1,6 @@
 function [data, g, tau, schemeData] = Double_KneeHips_Backward(gpoints, accuracy, tMax, alpha,schemeData)
+constraint = 0;
+
 %% Grid
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
@@ -79,14 +81,12 @@ if nargin <5
   schemeData.grav = grav;
   schemeData.height = height;
   schemeData.accuracy = accuracy; %default is medium
-  [tau1s,tau2s, data] = testAnkle(schemeData, data, trim); %add in ankle constraints
-% for i = 1:length(tau1s(1,1,1,1,:))
-% schemeData.dynSys.tau1Test{i} = tau1s(:,:,:,:,i);
-% schemeData.dynSys.tau2Test{i} = tau2s(:,:,:,:,i);
-% end
-% 
- schemeData.dynSys.tau1Test = tau1s;
- schemeData.dynSys.tau2Test = tau2s;
+  
+  if constraint == 1
+    [tau1s,tau2s, data] = testAnkle(schemeData, data, trim); %add in ankle constraints
+    schemeData.dynSys.tau1Test = tau1s;
+    schemeData.dynSys.tau2Test = tau2s;
+  end
 
 end
 
@@ -95,10 +95,11 @@ schemeData.hamFunc = @genericHam; %@pendulum4DHam;
 schemeData.partialFunc = @genericPartial;%@pendulum4Dpartial;
 %% solve
 %extraArgs.visualize = true;
-%extraArgs.save_filename = 'Double_KneeHips_Backward_41_highAc';
-%extraArgs.saveFrequency = 100;
-%extraArgs.stopInit = [pi/2 0 -pi/2 0];
+extraArgs.save_filename = 'Double_KneeHips_Backward';
+extraArgs.saveFrequency = 100;
+extraArgs.stopInit = [pi/2 0 -pi/2 0];
 extraArgs.stopConverge = 1;
+extraArgs.keepLast = 1;
 [data, tau] = HJIPDE_solve( ...
   data, tau, schemeData, 'zero', extraArgs);
 %data = min(data,[],5);

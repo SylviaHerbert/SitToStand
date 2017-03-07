@@ -23,7 +23,7 @@ TAMax = 68;
 TAMin = -50;
 
 
-alpha = 1;
+alpha = .15;
 schemeData.T1Max = alpha*T1Max;
 schemeData.T1Min = alpha*T1Min;
 schemeData.T2Max = alpha*T2Max;
@@ -63,19 +63,20 @@ axis([-1 1 0 1.5])
 
 %% Loop over every time stamp
 
-for i = 1:length(data(1,1,1,1,:))
-  deriv{i} = computeGradients(g,data(:,:,:,:,i));
-end
+% for i = 1:length(data(1,1,1,1,:))
+%   deriv{i} = computeGradients(g,data(:,:,:,:,i));
+% end
+deriv = computeGradients(g,data(:,:,:,:,end));
 
 for i = 2:length(tau)
 % Find gradient at this state
-p = eval_u(g,deriv{i},body.x);
+p = eval_u(g,deriv,body.x);
 
 % Find Optimal Control
 % at this state, what are the allowed controls?
 % Find the best of those controls
 
-%[body] = tauPoints(body);
+[body] = tauPoints(body);
 
 uOpt = body.optCtrl(dt,body.x,p,uMode);
 
