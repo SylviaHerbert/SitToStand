@@ -1,8 +1,8 @@
-function [tau1TestPoints, tau2TestPoints, data] = testAnkle(schemeData, data, trim)
+function [tau1TestPoints, tau2TestPoints, obstacles] = testAnkle(schemeData, data, trim)
 if nargin <1
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
-N = 35*ones(4,1);         % Number of grid points per dimension, default to 41
+N = 41*ones(4,1);         % Number of grid points per dimension, default to 41
 g = createGrid(grid_min, grid_max, N);
 height = 1.72;
 mass = 62;
@@ -22,7 +22,7 @@ T2Min = -60;
 TAMax = 68;
 TAMin = -50;
 
-alpha = .1;
+alpha = 1;
 T1Max = alpha*T1Max;
 T1Min = alpha*T1Min;
 T2Max = alpha*T2Max;
@@ -234,7 +234,8 @@ end
 
 %  We will have some duplicates, so let's just keep the unique pairs to
 %  test
-  
+b = 0;
+  small = 4*max(g.dx(:));
 if trim
   tau1Test = nan(g.N(1),g.N(2),g.N(3),g.N(4),6);
   tau2Test = tau1Test;
@@ -245,11 +246,21 @@ if trim
           test = squeeze([tau1TestPoints(q,r,s,t,:), tau2TestPoints(q,r,s,t,:)])';
             test = intersect(test,test,'rows');
             if isempty(test)
-              data(q,r,s,t) = 1e6;
-            end
-            for z = 1:length(test(:,1))
-              tau1Test(q,r,s,t,z)=test(z,1);
-              tau2Test(q,r,s,t,z)=test(z,2);
+              % if no control is feasible, make that state an obstacle
+              if b == 0
+                obstacles = (g.xs{1}-q).^2 + (g.xs{2}-r).^2 + (g.xs{3}-s).^2 + (g.xs{4}-t).^2;
+                obstacles = sqrt(obstacles) - small;
+                b = 1;
+              else
+                obstacleNew = (g.xs{1}-q).^2 + (g.xs{2}-r).^2 + (g.xs{3}-s).^2 + (g.xs{4}-t).^2;
+                obstacleNew = sqrt(obstacleNew) - small;
+                obstacles = shapeUnion(obstacles, obstacleNew);
+              end
+            else
+              for z = 1:length(test(:,1))
+                tau1Test(q,r,s,t,z)=test(z,1);
+                tau2Test(q,r,s,t,z)=test(z,2);
+              end
             end
         end
       end
