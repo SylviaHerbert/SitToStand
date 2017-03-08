@@ -135,6 +135,8 @@ else
   tau1num2 = -(M2.*R2.^2 + M2.*R2.*L1.*cos(x(3)));
   tau2num2= -(-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(x(3)));
   
+  %hamValue = p{1}.*dx{1} + p{2}.*dx{2} + p{3}.*dx{3} + p{4}.*dx{4};
+  
   % tau1.*(p{2}.*(tau1num1/denom1)+p{4}.*(tau1num2/denom2)) +...
   % tau2.*(p{2}.*(tau2num1/denom1)+p{4}.*(tau2num2/denom2)) +...
   % p{1}.*x(2)+p{3}.*x(4) + p{2}.*(num1/denom1) + p{4}.* (num2/denom2)

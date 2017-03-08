@@ -21,7 +21,7 @@ if nargin < 3
 tMax = 1;
 end
 
-dt = 0.01;
+dt = 0.001;
 tau = t0:dt:tMax;
 
 %% problem parameters
@@ -75,7 +75,7 @@ end
 schemeData.hamFunc = @genericHam; %@pendulum4DHam;
 schemeData.partialFunc = @genericPartial;%@pendulum4Dpartial;
 %% solve
-%extraArgs.visualize = true;
+extraArgs.visualize = true;
 extraArgs.save_filename = (['Double_KneeHips_Backward_g', num2str(gpoints), ...
   '_', num2str(accuracy), '_t', num2str(tMax), '_alpha', num2str(alpha)]);
 extraArgs.saveFrequency = 100;
