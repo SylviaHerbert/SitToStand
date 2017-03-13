@@ -14,7 +14,7 @@ R2 = obj.R2;
 M1 = obj.M1;
 M2 = obj.M2;
 L1 = obj.L1;
-grav = 9.81;
+g = 9.81;
 
 
 p = deriv;
@@ -24,33 +24,33 @@ p = deriv;
 if iscell(deriv)
   %dx{1} = x{2};
   
-  %dx{2} = tau1.*(tau1num1/denom1) + tau2.*(tau2num1/denom1) + (num1/denom1);
-  denom1 = (L1.^2.*M2.*R2 + M1.*R1.^2.*R2 - ...
-    L1.^2.*M2.*R2.*cos(x{3}).^2);
-  num1 = grav.*(M1.*R1.*R2 + M2.*L1.*R2).*sin(x{1}) + ...
-    (x{2} + x{4}).^2.*L1.*M2.*R2.^2.*sin(x{3}) - ...
-    grav.*M2.*L1.*R2.*sin(x{1}+x{3}).*cos(x{3}) + ...
-    M2.*L1.^2.*R2.*x{2}.^2.*cos(x{3}).*sin(x{3});
-  tau1num1 = R2;
-  tau2num1 = -(R2+L1.*cos(x{3}));
+  %dx{2} = tau1.*(tau1num1./denom1) + tau2.*(tau2num1./denom1) + (num1./denom1);
+
+denom1 = (M1.*R1.^4 + L1.^2.*M2.*R1.^2 - L1.^2.*M2.*R2.^2.*cos(x{1} - x{3}).^2);
+
+num1 = -(M2.*cos(x{1} - x{3}).*sin(x{1} - x{3}).*L1.^2.*R2.^2.*x{2}.^2 + ...
+    M2.*sin(x{1} - x{3}).*L1.*R1.^2.*R2.*x{4}.^2 + M2.*g.*sin(x{1}).*L1.*R1.^2 - ...
+    M2.*g.*sin(x{3}).*cos(x{1} - x{3}).*L1.*R2.^2 + ...
+    M1.*g.*sin(x{1}).*R1.^3);
+    
+tau1num1 = R1.^2;
+tau2num1 =  -cos(x{1} - x{3}).*L1.*R2;
   
   %dx{3} = x{4};
   
-  %dx{4} = tau1.*(tau1num2/denom2) + tau2.*(tau2num2/denom2)  + (num2/denom2);
-  num2 = -((M2.^2.*R2.^2.*L1.*grav + M1.*M2.*R1.*R2.^2.*grav).*sin(x{1}) + ...
-    (-M2.^2.*R2.*L1.^2.*grav - M1.*M2.*R1.^2.*R2.*grav).*sin(x{1} + x{3}) + ...
-    ((M2.^2.*R2.*L1.^3+M1.*M2.*R1.^2.*R2.*L1).*x{2}.^2+ ...
-    (M2.^2.*R2.^3.*L1).*(x{2}+x{4}).^2).*sin(x{3}) + ...
-    (M2.^2.*R2.*L1.^2.*grav + M1.*M2.*R1.*R2.*L1.*grav).*cos(x{3}).*sin(x{1}) + ...
-    (M2.^2.*R2.^2.*L1.^2.*(2.*x{2}.^2 + 2.*x{2}.*x{4} + x{4}.^2)).*cos(x{3}).*sin(x{3}) - ...
-    M2.^2.*R2.^2.*L1.*grav.*sin(x{1} + x{3}).*cos(x{3}));
-  denom2 = (M2.*R2.^2.*(M1.*R1.^2 + M2.*L1.^2 - M2.*L1.^2.*cos(x{3}).^2));
-  tau1num2 = -(M2.*R2.^2 + M2.*R2.*L1.*cos(x{3}));
-  tau2num2= -(-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(x{3}));
+  %dx{4} = tau1.*(tau1num2./denom2) + tau2.*(tau2num2./denom2)  + (num2./denom2);
+denom2 = M2.*(M1.*R1.^4 + L1.^2.*M2.*R1.^2 - L1.^2.*M2.*R2.^2.*cos(x{1} - x{3}).^2);
+num2 =(- L1.^2.*M2.^2.*R2.*g.*sin(x{3}) + L1.^3.*M2.^2.*R2.*x{2}.^2.*sin(x{1} - x{3}) + ...
+    L1.^2.*M2.^2.*R2.*g.*sin(x{1}).*cos(x{1} - x{3}) - M1.*M2.*R1.^2.*R2.*g.*sin(x{3}) + ...
+    L1.^2.*M2.^2.*R2.^2.*x{4}.^2.*cos(x{1} - x{3}).*sin(x{1} - x{3}) +...
+    L1.*M1.*M2.*R1.^2.*R2.*x{2}.^2.*sin(x{1} - x{3}) + L1.*M1.*M2.*R1.*R2.*g.*sin(x{1}).*cos(x{1} - x{3}));
+    
+tau1num2 = - L1.*M2.*R2.*cos(x{1} - x{3});
+tau2num2 = M1.*R1.^2 + L1.^2.*M2;
   
-  % tau1.*(p{2}.*(tau1num1/denom1)+p{4}.*(tau1num2/denom2)) +...
-  % tau2.*(p{2}.*(tau2num1/denom1)+p{4}.*(tau2num2/denom2)) +...
-  % p{1}.*x{2}+p{3}.*x{4} + p{2}.*(num1/denom1) + p{4}.* (num2/denom2)
+  % tau1.*(p{2}.*(tau1num1./denom1)+p{4}.*(tau1num2./denom2)) +...
+  % tau2.*(p{2}.*(tau2num1./denom1)+p{4}.*(tau2num2./denom2)) +...
+  % p{1}.*x{2}+p{3}.*x{4} + p{2}.*(num1./denom1) + p{4}.* (num2./denom2)
   
   extraTerms = p{1}.*x{2} + p{3}.*x{4} + p{2}.*num1./denom1+p{4}.*num2./denom2;
   tau1Multiplier = (p{2}.*tau1num1./denom1 + p{4}.*tau1num2./denom2);
@@ -109,37 +109,37 @@ if iscell(deriv)
   end
   
 else
-  %dx(1) = x(2);
+    %dx(1) = x(2);
   
-  %dx(2) = tau1.*(tau1num1/denom1) + tau2.*(tau2num1/denom1) + (num1/denom1);
-  denom1 = (L1.^2.*M2.*R2 + M1.*R1.^2.*R2 - ...
-    L1.^2.*M2.*R2.*cos(x(3)).^2);
-  num1 = grav.*(M1.*R1.*R2 + M2.*L1.*R2).*sin(x(1)) + ...
-    (x(2) + x(4)).^2.*L1.*M2.*R2.^2.*sin(x(3)) - ...
-    grav.*M2.*L1.*R2.*sin(x(1)+x(3)).*cos(x(3)) + ...
-    M2.*L1.^2.*R2.*x(2).^2.*cos(x(3)).*sin(x(3));
-  tau1num1 = R2;
-  tau2num1 = -(R2+L1.*cos(x(3)));
+  %dx(2) = tau1.*(tau1num1./denom1) + tau2.*(tau2num1./denom1) + (num1./denom1);
+
+denom1 = (M1.*R1.^4 + L1.^2.*M2.*R1.^2 - L1.^2.*M2.*R2.^2.*cos(x(1) - x(3)).^2);
+
+num1 = -(M2.*cos(x(1) - x(3)).*sin(x(1) - x(3)).*L1.^2.*R2.^2.*x(2).^2 + ...
+    M2.*sin(x(1) - x(3)).*L1.*R1.^2.*R2.*x(4).^2 + M2.*g.*sin(x(1)).*L1.*R1.^2 - ...
+    M2.*g.*sin(x(3)).*cos(x(1) - x(3)).*L1.*R2.^2 + ...
+    M1.*g.*sin(x(1)).*R1.^3);
+    
+tau1num1 = R1.^2;
+tau2num1 =  -cos(x(1) - x(3)).*L1.*R2;
   
   %dx(3) = x(4);
   
-  %dx(4) = tau1.*(tau1num2/denom2) + tau2.*(tau2num2/denom2)  + (num2/denom2);
-  num2 = -((M2.^2.*R2.^2.*L1.*grav + M1.*M2.*R1.*R2.^2.*grav).*sin(x(1)) + ...
-    (-M2.^2.*R2.*L1.^2.*grav - M1.*M2.*R1.^2.*R2.*grav).*sin(x(1) + x(3)) + ...
-    ((M2.^2.*R2.*L1.^3+M1.*M2.*R1.^2.*R2.*L1).*x(2).^2+ ...
-    (M2.^2.*R2.^3.*L1).*(x(2)+x(4)).^2).*sin(x(3)) + ...
-    (M2.^2.*R2.*L1.^2.*grav + M1.*M2.*R1.*R2.*L1.*grav).*cos(x(3)).*sin(x(1)) + ...
-    (M2.^2.*R2.^2.*L1.^2.*(2.*x(2).^2 + 2.*x(2).*x(4) + x(4).^2)).*cos(x(3)).*sin(x(3)) - ...
-    M2.^2.*R2.^2.*L1.*grav.*sin(x(1) + x(3)).*cos(x(3)));
-  denom2 = (M2.*R2.^2.*(M1.*R1.^2 + M2.*L1.^2 - M2.*L1.^2.*cos(x(3)).^2));
-  tau1num2 = -(M2.*R2.^2 + M2.*R2.*L1.*cos(x(3)));
-  tau2num2= -(-M1.*R1.^2 - M2.*R2.^2 - M2.*L1.^2 - 2.*M2.*R2.*L1.*cos(x(3)));
+  %dx(4) = tau1.*(tau1num2./denom2) + tau2.*(tau2num2./denom2)  + (num2./denom2);
+denom2 = M2.*(M1.*R1.^4 + L1.^2.*M2.*R1.^2 - L1.^2.*M2.*R2.^2.*cos(x(1) - x(3)).^2);
+num2 =(- L1.^2.*M2.^2.*R2.*g.*sin(x(3)) + L1.^3.*M2.^2.*R2.*x(2).^2.*sin(x(1) - x(3)) + ...
+    L1.^2.*M2.^2.*R2.*g.*sin(x(1)).*cos(x(1) - x(3)) - M1.*M2.*R1.^2.*R2.*g.*sin(x(3)) + ...
+    L1.^2.*M2.^2.*R2.^2.*x(4).^2.*cos(x(1) - x(3)).*sin(x(1) - x(3)) +...
+    L1.*M1.*M2.*R1.^2.*R2.*x(2).^2.*sin(x(1) - x(3)) + L1.*M1.*M2.*R1.*R2.*g.*sin(x(1)).*cos(x(1) - x(3)));
+    
+tau1num2 = - L1.*M2.*R2.*cos(x(1) - x(3));
+tau2num2 = M1.*R1.^2 + L1.^2.*M2;
   
   %hamValue = p{1}.*dx{1} + p{2}.*dx{2} + p{3}.*dx{3} + p{4}.*dx{4};
   
-  % tau1.*(p{2}.*(tau1num1/denom1)+p{4}.*(tau1num2/denom2)) +...
-  % tau2.*(p{2}.*(tau2num1/denom1)+p{4}.*(tau2num2/denom2)) +...
-  % p{1}.*x(2)+p{3}.*x(4) + p{2}.*(num1/denom1) + p{4}.* (num2/denom2)
+  % tau1.*(p{2}.*(tau1num1./denom1)+p{4}.*(tau1num2./denom2)) +...
+  % tau2.*(p{2}.*(tau2num1./denom1)+p{4}.*(tau2num2./denom2)) +...
+  % p{1}.*x(2)+p{3}.*x(4) + p{2}.*(num1./denom1) + p{4}.* (num2./denom2)
   
   extraTerms = p(1).*x(2) + p(3).*x(4) + p(2).*num1./denom1+p(4).*num2./denom2;
   tau1Multiplier = (p(2).*tau1num1./denom1 + p(4).*tau1num2./denom2);
@@ -166,8 +166,8 @@ else
         end
       end
     else
-      uOpt(1) = (tau1Multiplier>=0)*obj.T1Min + (tau1Multiplier<0)*obj.T1Max;
-      uOpt(2) = (tau2Multiplier>=0)*obj.T2Min + (tau2Multiplier<0)*obj.T2Max;
+      uOpt(1) = (tau1Multiplier>=0).*obj.T1Min + (tau1Multiplier<0).*obj.T1Max;
+      uOpt(2) = (tau2Multiplier>=0).*obj.T2Min + (tau2Multiplier<0).*obj.T2Max;
     end
     
   elseif strcmp(uMode, 'max')
@@ -185,8 +185,8 @@ else
         end
       end
     else
-      uOpt(1) = (tau1Multiplier>=0)*obj.T1Max + (tau1Multiplier<0)*obj.T1Min;
-      uOpt(2) = (tau2Multiplier>=0)*obj.T2Max + (tau2Multiplier<0)*obj.T2Min;
+      uOpt(1) = (tau1Multiplier>=0).*obj.T1Max + (tau1Multiplier<0).*obj.T1Min;
+      uOpt(2) = (tau2Multiplier>=0).*obj.T2Max + (tau2Multiplier<0).*obj.T2Min;
     end
   else
     error('Unknown uMode!')
