@@ -25,6 +25,9 @@ end
 dt = .01;
 tau = t0:dt:tMax;
 
+if nargin <4
+  constraint = 0;
+end
 %% problem parameters
 
 height = 1.72;
@@ -56,7 +59,7 @@ TAMin = alpha*TAMin;
 
 grav = 9.81;
 %% Pack problem parameters
-if nargin <5
+if nargin <6
   schemeData.dynSys= STS4D([0 0 0 0], R1, R2, M1, M2, L1, L0, grav,...
     T1Max, T1Min, T2Max, T2Min, TAMax, TAMin,[1:4]);
   schemeData.grid = g; % Grid MUST be specified!
@@ -77,9 +80,9 @@ schemeData.hamFunc = @genericHam; %@pendulum4DHam;
 schemeData.partialFunc = @genericPartial;%@pendulum4Dpartial;
 %% solve
 %extraArgs.visualize = true;
-%extraArgs.save_filename = (['Double_KneeHips_Backward_g', num2str(gpoints), ...
-%  '_', num2str(accuracy), '_t', num2str(tMax), '_alpha', num2str(alpha)]);
-%extraArgs.saveFrequency = 100;
+extraArgs.save_filename = (['Double_KneeHips_Backward_g', num2str(gpoints), ...
+  '_', num2str(accuracy), '_t', num2str(tMax), '_alpha', num2str(alpha)]);
+extraArgs.saveFrequency = 100;
 extraArgs.stopInit = [pi/2 0 -pi/2 0];
 extraArgs.stopConverge = 1;
 extraArgs.keepLast = 1;
