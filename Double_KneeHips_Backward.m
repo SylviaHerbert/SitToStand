@@ -1,10 +1,11 @@
-function [data, g, tau, schemeData] = Double_KneeHips_Backward(gpoints, accuracy, tMax, alpha,schemeData)
-constraint = 0;
+function [data, g, tau, schemeData, runtime] = Double_KneeHips_Backward(gpoints, accuracy, tMax, alpha, constraint, schemeData)
 
 %% Grid
 grid_min = [-0.29, -6.31, -2.67, -7.57];
 grid_max = [1.89, 4.51, 0.15, 8.91];
-N = gpoints*ones(4,1);  
+gApoints = gpoints;
+gVpoints = gApoints/2;
+N = [gApoints gVpoints gApoints gVpoints]; 
 g = createGrid(grid_min, grid_max, N);
 
 %% target set
@@ -21,7 +22,7 @@ if nargin < 3
 tMax = 1;
 end
 
-dt = 0.001;
+dt = .01;
 tau = t0:dt:tMax;
 
 %% problem parameters
@@ -75,13 +76,15 @@ end
 schemeData.hamFunc = @genericHam; %@pendulum4DHam;
 schemeData.partialFunc = @genericPartial;%@pendulum4Dpartial;
 %% solve
-extraArgs.visualize = true;
-extraArgs.save_filename = (['Double_KneeHips_Backward_g', num2str(gpoints), ...
-  '_', num2str(accuracy), '_t', num2str(tMax), '_alpha', num2str(alpha)]);
-extraArgs.saveFrequency = 100;
+%extraArgs.visualize = true;
+%extraArgs.save_filename = (['Double_KneeHips_Backward_g', num2str(gpoints), ...
+%  '_', num2str(accuracy), '_t', num2str(tMax), '_alpha', num2str(alpha)]);
+%extraArgs.saveFrequency = 100;
 extraArgs.stopInit = [pi/2 0 -pi/2 0];
 extraArgs.stopConverge = 1;
 extraArgs.keepLast = 1;
+tic
 [data, tau] = HJIPDE_solve( ...
   data, tau, schemeData, 'zero', extraArgs);
+runtime = toc;
 end

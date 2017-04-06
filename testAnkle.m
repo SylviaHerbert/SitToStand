@@ -53,16 +53,16 @@ end
 %%% double pendulum - ankle torque constraint
 %% parameters
 g=schemeData.grid; % Grid MUST be specified!
-tau1Bound = [schemeData.T1Min, schemeData.T1Max];
-tau2Bound = [schemeData.T2Min, schemeData.T2Max];
-tauAnkleMin = schemeData.TAMin;
-tauAnkleMax = schemeData.TAMax;
-R1=schemeData.R1;
-R2=schemeData.R2;
-M1=schemeData.M1;
-M2=schemeData.M2;
-L1=schemeData.L1;
-L0=schemeData.L0;
+tau1Bound = [schemeData.dynSys.T1Min, schemeData.dynSys.T1Max];
+tau2Bound = [schemeData.dynSys.T2Min, schemeData.dynSys.T2Max];
+tauAnkleMin = schemeData.dynSys.TAMin;
+tauAnkleMax = schemeData.dynSys.TAMax;
+R1=schemeData.dynSys.R1;
+R2=schemeData.dynSys.R2;
+M1=schemeData.dynSys.M1;
+M2=schemeData.dynSys.M2;
+L1=schemeData.dynSys.L1;
+L0=schemeData.dynSys.L0;
 grav = 9.81;
 
 %% Setting up the Ankle Constraint Equation
